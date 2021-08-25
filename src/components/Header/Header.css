@@ -1,0 +1,11 @@
+.header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #fe6f74;
+	border-radius: 20px;
+}
+
+.header__logo {
+	margin-left: 10px;
+}
