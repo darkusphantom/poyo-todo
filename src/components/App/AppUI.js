@@ -1,4 +1,5 @@
 import React from 'react';
+import '../Header/Header.css';
 import { TodoContext } from '../TodoContext';
 import { TodoCounter } from '../TodoCounter';
 import { TodoSearch } from '../TodoSearch';
@@ -24,9 +25,9 @@ function AppUI() {
       <TodoSearch />
 
       <TodoList>
-        {error && <p>Desespérate, hubo un error...</p>}
-        {loading && <p>Estamos cargando, no desesperes...</p>}
-        {(!loading && !searchedTodos.length) && <p>¡Crea tu primer TODO!</p>}
+        {error && <p>¡Poyo! ¡Poyo! ¡Poyo! ¡Hubo un error!</p>}
+        {loading && <p>Estamos cargando, ¡poyo!</p>}
+        {(!loading && !searchedTodos.length) && <p>Crea tu POYO todo</p>}
 
         {searchedTodos.map(todo => (
           <TodoItem

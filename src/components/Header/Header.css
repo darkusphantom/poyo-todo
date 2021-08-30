@@ -2,8 +2,9 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	width: 100%;
 	background: #fe6f74;
-	border-radius: 20px;
+
 }
 
 .header__logo {
