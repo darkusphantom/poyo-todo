@@ -1,10 +1,10 @@
 import React from 'react';
-import { useLocalStorage } from './useLocalStorage'
+import { useLocalStorage } from './useLocalStorage';
 
 const TodoContext = React.createContext();
 
-const TodoProvider = (props) => {
-const {
+function TodoProvider(props) {
+  const {
     item: todos,
     saveItem: saveTodos,
     loading,
