@@ -1,6 +1,7 @@
 import React from 'react';
 import '../Header/Header.css';
 import { TodoContext } from '../TodoContext';
+import { AddTodo } from '../AddTodo';
 import { TodoCounter } from '../TodoCounter';
 import { TodoSearch } from '../TodoSearch';
 import { TodoList } from '../TodoList';
@@ -22,7 +23,7 @@ function AppUI() {
   return (
     <React.Fragment>
       <TodoCounter />
-      <TodoSearch />
+      <TodoSearch placeholder={"Busca un POYO Todo"} />
 
       <TodoList>
         {error && <p>¡Poyo! ¡Poyo! ¡Poyo! ¡Hubo un error!</p>}
@@ -42,7 +43,7 @@ function AppUI() {
 
       {!!openModal && (
         <Modal>
-          <p>{searchedTodos[0]?.text}</p>
+          <AddTodo />
         </Modal>
       )}
 
@@ -55,10 +56,20 @@ function AppUI() {
 
 export { AppUI };
 
-
 /*
+const defaultTodos = [
+  {
+    text: 'Alabar a Kirby',
+    completed: true
+  },
+  {
+    text: 'Tomar un abrazo',
+    completed: false
+  },
+  {
+    text: 'Llorar con la Llorona',
+    completed: false
+  },
+]
 
-				{error && <p>¡Poyo! ¡Poyo! ¡Poyo! ¡Hubo un error!</p>}
-				{loading && <p>Estamos cargando, ¡poyo!</p>}
-				{(!loading && !searchedTodos.length) && <p>Crea tu POYO todo</p>}
  */

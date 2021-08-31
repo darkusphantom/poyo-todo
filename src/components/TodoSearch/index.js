@@ -2,9 +2,9 @@ import React from 'react';
 import { TodoContext } from '../TodoContext';
 import './TodoSearch.css';
 
-function TodoSearch() {
+function TodoSearch({ placeholder }) {
   const { searchValue, setSearchValue } = React.useContext(TodoContext);
-  
+
   const onSearchValueChange = (event) => {
     console.log(event.target.value);
     setSearchValue(event.target.value);
@@ -13,7 +13,7 @@ function TodoSearch() {
   return (
     <input
       className="TodoSearch"
-	  placeholder="Ingresa un POYO Todo"
+	    placeholder={placeholder}
       value={searchValue}
       onChange={onSearchValueChange}
     />
