@@ -22,3 +22,9 @@
 .TodoSearch:focus {
   outline-color: #fe6f74;
 }
+
+@media screen and (max-width: 480px) {
+  .TodoSearch {
+    font-size: 18px;
+  }
+}

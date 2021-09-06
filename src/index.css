@@ -3,9 +3,12 @@
   --pinkDarkest: #fe6f74;
   --pinkClear: #ffdde1;
   --white: #ffffff;
+  --gray: #8a8a8a;
 
   --backgroundGradient1: var(--pinkDarkest);
   --backgroundGradient2: var(--pinkClear);
+  --btnAdd--color: linear-gradient(to top, var(--backgroundGradient1), 85%, var(--backgroundGradient2));
+  --btnCancel--color: linear-gradient(to top, var(--gray), 85%, var(--backgroundGradient2));
 }
 
 body {

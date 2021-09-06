@@ -28,10 +28,10 @@ function TodoForm() {
 			className="todoForm"
 			onSubmit={onSubmit} >
 			<label
-				className=""
+				className="todoForm__label"
 				htmlFor="todoTextarea">Escribe tu Tarea</label>
 			<textarea
-				className=""
+				className="todoForm__textarea"
 				id="todoTextarea"
 				name="todoTextarea"
 				value={newTodoValue}
@@ -39,7 +39,7 @@ function TodoForm() {
 				placeholder="Escribe un Poyo TODO"
 			>
 			</textarea>
-			<div>
+			<div className="container__btn">
 				<button
 					className="btn btn--cancel"
 					type="button"

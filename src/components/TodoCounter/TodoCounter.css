@@ -5,3 +5,9 @@
   padding: 48px;
   color: #fe6f74;
 }
+
+@media screen and (max-width: 480px) {
+  .TodoCounter {
+    font-size: 22px;
+  }
+}
