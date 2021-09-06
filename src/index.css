@@ -1,9 +1,48 @@
+:root {
+  --pink: #ffcbcf;
+  --pinkDarkest: #fe6f74;
+  --pinkClear: #ffdde1;
+  --white: #ffffff;
+
+  --backgroundGradient1: var(--pinkDarkest);
+  --backgroundGradient2: var(--pinkClear);
+}
+
 body {
   margin: 0;
   padding: 0;
-  background: #ffcbcf;
-  color: white;
+  background: var(--pink);
+  background: -webkit-linear-gradient(to top, var(--backgroundGradient1), var(--backgroundGradient2));
+  background: linear-gradient(to top, var(--backgroundGradient1), var(--backgroundGradient2));
+  color: var(--white);
   font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+}
+
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--pink);
+  border-radius: 8px;
+}
+
+body::-webkit-scrollbar-thumb:active {
+  background-color: var(--pink);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--pink);
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--pinkDarkest);
+}
+
+body::-webkit-scrollbar-track:hover,
+body::-webkit-scrollbar-track:active {
+  background: rgba(254, 206, 210, 0.3);
 }
 
 #root {

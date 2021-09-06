@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import '../Header/Header.css';
 import { TodoContext } from '../TodoContext';
-import { AddTodo } from '../AddTodo';
 import { TodoCounter } from '../TodoCounter';
 import { TodoSearch } from '../TodoSearch';
 import { TodoList } from '../TodoList';
 import { TodoItem } from '../TodoItem';
+import { TodoForm } from '../TodoForm';
 import { CreateTodoButton } from '../CreateTodoButton';
 import { Modal } from '../Modal';
 
@@ -21,7 +21,7 @@ function AppUI() {
   } = React.useContext(TodoContext);
 
   return (
-    <React.Fragment>
+    <Fragment>
       <TodoCounter />
       <TodoSearch placeholder={"Busca un POYO Todo"} />
 
@@ -43,33 +43,15 @@ function AppUI() {
 
       {!!openModal && (
         <Modal>
-          <AddTodo />
+          <TodoForm />
         </Modal>
       )}
 
       <CreateTodoButton
         setOpenModal={setOpenModal}
       />
-    </React.Fragment>
+    </Fragment>
   );
 }
 
 export { AppUI };
-
-/*
-const defaultTodos = [
-  {
-    text: 'Alabar a Kirby',
-    completed: true
-  },
-  {
-    text: 'Tomar un abrazo',
-    completed: false
-  },
-  {
-    text: 'Llorar con la Llorona',
-    completed: false
-  },
-]
-
- */
