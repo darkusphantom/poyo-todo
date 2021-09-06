@@ -18,35 +18,36 @@ body {
   font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 }
 
-body::-webkit-scrollbar {
-  width: 12px;
-}
-
-body::-webkit-scrollbar-thumb {
-  background: var(--pink);
-  border-radius: 8px;
-}
-
-body::-webkit-scrollbar-thumb:active {
-  background-color: var(--pink);
-}
-
-body::-webkit-scrollbar-thumb:hover {
-  background: var(--pink);
-  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
-}
-
-body::-webkit-scrollbar-track {
-  background: var(--pinkDarkest);
-}
-
-body::-webkit-scrollbar-track:hover,
-body::-webkit-scrollbar-track:active {
-  background: rgba(254, 206, 210, 0.3);
-}
-
 #root {
   margin: 0 24px;
   position: relative;
   min-height: 100vh;
+}
+
+@media screen and (min-width: 1024px) {
+  body::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background: var(--pink);
+    border-radius: 8px;
+  }
+
+  body::-webkit-scrollbar-thumb:active {
+    background-color: var(--pink);
+  }
+
+  body::-webkit-scrollbar-thumb:hover {
+    background: var(--pink);
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+  }
+
+  body::-webkit-scrollbar-track {
+    background: var(--pinkDarkest);
+  }
+
+  body::-webkit-scrollbar-track:active {
+    background: rgba(254, 206, 210, 0.3);
+  }
 }

@@ -16,6 +16,7 @@
   font-weight: 400;
   color: #fe6f74;
 }
+
 .TodoItem-p--complete {
   text-decoration: line-through;
 }

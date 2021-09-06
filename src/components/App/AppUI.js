@@ -26,9 +26,9 @@ function AppUI() {
       <TodoSearch placeholder={"Busca un POYO Todo"} />
 
       <TodoList>
-        {error && <p>¡Poyo! ¡Poyo! ¡Poyo! ¡Hubo un error!</p>}
-        {loading && <p>Estamos cargando, ¡poyo!</p>}
-        {(!loading && !searchedTodos.length) && <p>Crea tu POYO todo</p>}
+        {error && <p className="TodoList-p TodoList--error">¡Poyo! ¡Poyo! ¡Poyo! ¡Hubo un error!</p>}
+        {loading && <p className="TodoList-p TodoList--loading">Estamos cargando, ¡Poyo!</p>}
+        {(!loading && !searchedTodos.length) && <p className="TodoList-p TodoList--new">Crea tu POYO todo</p>}
 
         {searchedTodos.map(todo => (
           <TodoItem
