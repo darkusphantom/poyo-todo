@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import '../Header/Header.css';
 import { TodoContext } from '../TodoContext';
+import { TodoHeader } from '../TodoHeader';
 import { TodoCounter } from '../TodoCounter';
 import { TodoSearch } from '../TodoSearch';
 import { TodoList } from '../TodoList';
@@ -18,12 +19,24 @@ function AppUI() {
     deleteTodo,
     openModal,
     setOpenModal,
+    totalTodos,
+    completedTodos,
+    searchValue,
+    setSearchValue,
   } = React.useContext(TodoContext);
 
   return (
     <Fragment>
-      <TodoCounter />
-      <TodoSearch placeholder={"Busca un POYO Todo"} />
+      <TodoHeader>
+        <TodoCounter>
+          totalTodos={totalTodos}
+          completedTodos={completedTodos}
+        </TodoCounter>
+        <TodoSearch placeholder={"Busca un POYO Todo"}>
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+        </TodoSearch>
+      </TodoHeader>
 
       <TodoList>
         {error && <p className="TodoList-p TodoList--error">¡Poyo! ¡Poyo! ¡Poyo! ¡Hubo un error!</p>}
