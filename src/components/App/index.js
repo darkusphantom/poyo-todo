@@ -87,7 +87,25 @@ const App = () => {
       </TodoHeader>
 
       <TodoList>
-        {error && <p className="TodoList-p TodoList--error">¡Poyo! ¡Poyo! ¡Poyo! ¡Hubo un error!</p>}
+        error={error}
+        loading={loading}
+        searchedTodos={searchedTodos}
+        onError={() => <TodoError />}
+        onLoading{() => <TodoLoading />}
+        onEmptyTodos={() => <EmptyTodos />}
+        render={todo => (
+          <TodoItem
+            key={todo.text}
+            text={todo.text}
+            completed={todo.completed}
+            onComplete={() => completeTodo(todo.text)}
+            onDelete={() => deleteTodo(todo.text)}
+          />
+        )}
+      </TodoList>
+
+      <TodoList>
+        {/*error && <p className="TodoList-p TodoList--error">¡Poyo! ¡Poyo! ¡Poyo! ¡Hubo un error!</p>}
         {loading && <p className="TodoList-p TodoList--loading">Estamos cargando, ¡Poyo!</p>}
         {(!loading && !searchedTodos.length) && <p className="TodoList-p TodoList--new">Crea tu POYO todo</p>}
 
@@ -99,7 +117,7 @@ const App = () => {
             onComplete={() => completeTodo(todo.text)}
             onDelete={() => deleteTodo(todo.text)}
           />
-        ))}
+        ))*/}
       </TodoList>
 
       {!!openModal && (
