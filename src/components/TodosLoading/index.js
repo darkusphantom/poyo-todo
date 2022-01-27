@@ -3,10 +3,10 @@ import './TodosLoading.css'
 
 const TodosLoading = () => {
   return(
-    <div className="LoadingTodo-container">
-      <span className="LoadingTodo-completeIcon"></span>
-      <p className="LoadingTodo-text">Cargando TODOs...</p>
-      <span className="LoadingTodo-deleteIcon"></span>
+    <div className="loadingTodo-container">
+      <span className="loadingTodo-completeIcon"></span>
+      <p className="loadingTodo-text">Cargando TODOs... (POYO...)</p>
+      <span className="loadingTodo-deleteIcon"></span>
     </div>
   );
 };

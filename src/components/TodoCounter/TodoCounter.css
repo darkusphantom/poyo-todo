@@ -6,6 +6,10 @@
   color: #fe6f74;
 }
 
+.TodoCounter--loading {
+  opacity: 25%;
+}
+
 @media screen and (max-width: 480px) {
   .TodoCounter {
     font-size: 22px;

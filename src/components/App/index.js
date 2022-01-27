@@ -9,6 +9,7 @@ import { TodoItem } from '../TodoItem';
 import { TodosError } from '../TodosError';
 import { TodosLoading } from '../TodosLoading';
 import { EmptyTodos } from '../EmptyTodos';
+import { EmptySearchTodos } from '../EmptySearchTodos';
 import { TodoForm } from '../TodoForm';
 import { CreateTodoButton } from '../CreateTodoButton';
 import { Modal } from '../Modal';
@@ -31,24 +32,35 @@ const App = () => {
 
   return (
     <Fragment>
-      <TodoHeader>
-        <TodoCounter>
+      <TodoHeader loading={loading}>
+        <TodoCounter
           totalTodos={totalTodos}
           completedTodos={completedTodos}
-        </TodoCounter>
-        <TodoSearch>
+          //loading={loading}
+        />
+        <TodoSearch
           searchValue={searchValue}
           setSearchValue={setSearchValue}
-        </TodoSearch>
+          //loading={loading}
+        />
       </TodoHeader>
 
       <TodoList
         error={error}
         loading={loading}
+        totalTodos={totalTodos}
         searchedTodos={searchedTodos}
+        searchedText={searchValue}
         onError={() => <TodosError />}
         onLoading={() => <TodosLoading />}
         onEmptyTodos={() => <EmptyTodos />}
+        onEmptySearchTodos={
+          (searchText) => {
+            <EmptySearchTodos
+              searchText={searchText}
+            />
+          }
+        }
         render={todo => (
           <TodoItem
             key={todo.text}
@@ -58,14 +70,26 @@ const App = () => {
             onDelete={() => deleteTodo(todo.text)}
           />
         )}
-      />
+      >
+      {/*
+         {todo => (
+          <TodoItem
+            key={todo.text}
+            text={todo.text}
+            completed={todo.completed}
+            onComplete={() => completeTodo(todo.text)}
+            onDelete={() => deleteTodo(todo.text)}
+          />
+        )}
+      */}
+      </TodoList>
 
       {!!openModal && (
         <Modal>
-          <TodoForm>
+          <TodoForm
             addTodo={addTodo}
             setOpenModal={setOpenModal}
-          </TodoForm>
+          />
         </Modal>
       )}
 
