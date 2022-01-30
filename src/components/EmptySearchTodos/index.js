@@ -1,8 +1,11 @@
 import React from 'react';
 
-const EmptySearchTodos = (props) => {
+const EmptySearchTodos = ({ searchText }) => {
+  console.log(searchText);
   return(
-    <p className="TodoList-p TodoList--new">No hay ninguna coincidencia con {props.searchText}</p>
+    <p className="TodoList-p TodoList--new">
+      No hay ninguna coincidencia con <i>{searchText}</i>
+    </p>
   );
 };
 
