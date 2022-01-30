@@ -13,6 +13,7 @@ import { EmptySearchTodos } from '../EmptySearchTodos';
 import { TodoForm } from '../TodoForm';
 import { CreateTodoButton } from '../CreateTodoButton';
 import { Modal } from '../Modal';
+import { ChangeAlertWithStorageListener } from '../ChangeAlert';
 
 const App = () => {
   const {
@@ -28,6 +29,7 @@ const App = () => {
     searchValue,
     setSearchValue,
 	  addTodo,
+    sincronizeTodos,
   } = useTodos();
 
   return (
@@ -36,12 +38,10 @@ const App = () => {
         <TodoCounter
           totalTodos={totalTodos}
           completedTodos={completedTodos}
-          //loading={loading}
         />
         <TodoSearch
           searchValue={searchValue}
           setSearchValue={setSearchValue}
-          //loading={loading}
         />
       </TodoHeader>
 
@@ -50,29 +50,15 @@ const App = () => {
         loading={loading}
         totalTodos={totalTodos}
         searchedTodos={searchedTodos}
-        searchedText={searchValue}
+        searchText={searchValue}
         onError={() => <TodosError />}
         onLoading={() => <TodosLoading />}
         onEmptyTodos={() => <EmptyTodos />}
         onEmptySearchTodos={
-          (searchText) => {
-            <EmptySearchTodos
-              searchText={searchText}
-            />
-          }
+          (searchText) => <EmptySearchTodos searchText={searchText} />
         }
-        render={todo => (
-          <TodoItem
-            key={todo.text}
-            text={todo.text}
-            completed={todo.completed}
-            onComplete={() => completeTodo(todo.text)}
-            onDelete={() => deleteTodo(todo.text)}
-          />
-        )}
       >
-      {/*
-         {todo => (
+        {todo => (
           <TodoItem
             key={todo.text}
             text={todo.text}
@@ -81,7 +67,6 @@ const App = () => {
             onDelete={() => deleteTodo(todo.text)}
           />
         )}
-      */}
       </TodoList>
 
       {!!openModal && (
@@ -96,6 +81,11 @@ const App = () => {
       <CreateTodoButton
         setOpenModal={setOpenModal}
       />
+
+      <ChangeAlertWithStorageListener
+        sincronize={sincronizeTodos}
+      />
+
     </Fragment>
   );
 }
