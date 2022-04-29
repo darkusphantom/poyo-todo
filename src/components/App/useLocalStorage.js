@@ -26,7 +26,7 @@ React.useEffect(() => {
         setError(error);
       }
     }, 3000);
-  }, [sincronizedItem]);
+  }, [sincronizedItem, itemName, initialValue]);
 
   const saveItem = (newItem) => {
     try {

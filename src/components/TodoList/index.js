@@ -7,7 +7,7 @@ function TodoList(props) {
     <section className="TodoList-container">
       {props.error && props.onError()}
       {props.loading && props.onLoading()}
-      
+
       {(!props.loading && !props.totalTodos) && props.onEmptyTodos()}
 
       {(!!props.totalTodos && !props.searchedTodos.length) && props.onEmptySearchTodos(props.searchText)}
