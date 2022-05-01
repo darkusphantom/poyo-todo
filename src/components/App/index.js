@@ -16,21 +16,26 @@ import { Modal } from '../Modal';
 import { ChangeAlertWithStorageListener } from '../ChangeAlert';
 
 const App = () => {
+  const { state, updateState } = useTodos();
+
   const {
-    error,
     loading,
-    searchedTodos,
-    completeTodo,
-    deleteTodo,
-    openModal,
-    setOpenModal,
+    error,
     totalTodos,
     completedTodos,
     searchValue,
-    setSearchValue,
-	  addTodo,
+    searchedTodos,
+    openModal,
     sincronizeTodos,
-  } = useTodos();
+  } = state;
+
+  const {
+    setSearchValue,
+    completeTodo,
+    addTodo,
+    deleteTodo,
+    setOpenModal,
+  } = updateState;
 
   return (
     <Fragment>
