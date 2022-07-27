@@ -1,9 +1,10 @@
+# Introduction
+
+Poyo todo es una aplicación de tareas, con la temática de Kirby de Nintendo, aplicando todo lo que voy aprendiendo en los cursos de React en Platzi, leyendo la documentación de React y por Youtube.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
 In the project directory, you can run:
 
 ### `npm start`
