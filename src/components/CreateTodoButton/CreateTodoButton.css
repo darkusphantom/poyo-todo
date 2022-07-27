@@ -21,6 +21,15 @@
   z-index: 1;
 }
 
+.CreateTodoButton::after {
+  content: '+';
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 0;
+  left: 18px;
+}
+
 .CreateTodoButton:hover {
   transform: rotate(224deg);
 }
