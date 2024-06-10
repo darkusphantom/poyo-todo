@@ -1,9 +1,10 @@
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 
 const TodoHeader = ({ children, loading }: any) => {
 
   return (
-    <header>
+    <Box as="header">
       {
         React.Children
           .toArray(children)
@@ -12,7 +13,7 @@ const TodoHeader = ({ children, loading }: any) => {
             { loading }
           ))
       }
-    </header>
+    </Box>
   )
 }
 

@@ -1,12 +1,17 @@
-import './TodoCounter.css';
+import { Box, Text } from '@chakra-ui/react';
 
 function TodoCounter({ totalTodos, completedTodos, loading }: any) {
   return (
-    <h2
-      className={`TodoCounter ${!!loading && "TodoCounter--loading"}`}
+    <Box
+      fontSize={["24px", "22px"]}
+      textAlign="center"
+      margin={0}
+      padding={6}
+      color="#fe6f74"
+      opacity={loading ? 0.25 : 1}
     >
-      Completaste {completedTodos} de {totalTodos} POYO's TODO
-    </h2>
+      <Text>Completaste {completedTodos} de {totalTodos} POYO's TODO</Text>
+    </Box>
   );
 }
 

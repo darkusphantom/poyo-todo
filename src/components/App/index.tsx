@@ -1,5 +1,4 @@
 import { Fragment } from 'react';
-import '../Header/Header.css';
 import { useTodos } from './useTodos.';
 import { TodoHeader } from '../TodoHeader';
 import { TodoCounter } from '../TodoCounter';
@@ -14,6 +13,7 @@ import { TodoForm } from '../TodoForm';
 import { CreateTodoButton } from '../CreateTodoButton';
 import { Modal } from '../Modal';
 import { ChangeAlertWithStorageListener } from '../ChangeAlert';
+import { Flex } from '@chakra-ui/react';
 
 const App = () => {
   const { states, updateState } = useTodos();
@@ -44,10 +44,12 @@ const App = () => {
           totalTodos={totalTodos}
           completedTodos={completedTodos}
         />
-        <TodoSearch
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-        />
+        <Flex alignContent="center" justifyContent="center">
+          <TodoSearch
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+          />
+        </Flex>
       </TodoHeader>
 
       <TodoList
@@ -74,14 +76,16 @@ const App = () => {
         )}
       </TodoList>
 
-      {!!openModal && (
-        <Modal>
-          <TodoForm
-            addTodo={addTodo}
-            setOpenModal={setOpenModal}
-          />
-        </Modal>
-      )}
+      {
+        !!openModal && (
+          <Modal>
+            <TodoForm
+              addTodo={addTodo}
+              setOpenModal={setOpenModal}
+            />
+          </Modal>
+        )
+      }
 
       <CreateTodoButton
         setOpenModal={setOpenModal}
@@ -91,7 +95,7 @@ const App = () => {
         sincronize={sincronizeTodos}
       />
 
-    </Fragment>
+    </Fragment >
   );
 }
 

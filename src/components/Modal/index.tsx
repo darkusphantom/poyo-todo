@@ -1,12 +1,23 @@
 import ReactDOM from 'react-dom';
-import './Modal.css'
+import { Box } from '@chakra-ui/react';
 
 const Modal = ({ children }: any) => {
   return ReactDOM.createPortal(
-    <div className="ModalBackground">
+    <Box
+      position="fixed"
+      top="-10px"
+      left="-10px"
+      right="-10px"
+      bottom="-10px"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      bg="rgba(32,35,41,.8)"
+      color="white"
+    >
       {children}
-    </div>,
-    document.getElementById('modal') as HTMLElement
+    </Box>
+  , document.getElementById('modal') as HTMLElement
   )
 }
 

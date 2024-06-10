@@ -1,9 +1,9 @@
-import './TodoList.css'
+import { Box } from '@chakra-ui/react';
 
 function TodoList(props: any) {
   const renderFunc = props.children || props.render;
   return (
-    <section className="TodoList-container">
+    <Box as='section'>
       { /*Muestra error*/}
       {props.error && props.onError()}
 
@@ -19,7 +19,7 @@ function TodoList(props: any) {
       { /*Realiza la búsqueda in real time */}
       {/*props.searchedTodos.map(todo => props.render(todo))*/}
       {props.searchedTodos.map(renderFunc)}
-    </section>
+    </Box>
   );
 }
 

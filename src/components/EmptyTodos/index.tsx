@@ -1,11 +1,15 @@
-import React from 'react';
-import './EmptyTodos.css'
+import { Text } from '@chakra-ui/react';
 
 const EmptyTodos = () => {
-  return(
-    <p className="TodoList-p TodoList--new">
+  return (
+    <Text
+      textAlign="center"
+      mt="15vh"
+      fontSize="16px"
+      fontWeight="bold"
+    >
       Crea un TODO en el botón (+) para comenzar
-    </p>
+    </Text>
   );
 };
 

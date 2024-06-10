@@ -1,12 +1,15 @@
-import './Header.css';
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 
 const Header = () => {
 	const logo = 'https://i.pinimg.com/originals/f5/46/10/f5461004115fc4bc9fe27db66d2a33cc.png';
 	return (
-		<header className="header">
-			<h1 className="header__title">POYO's TODO</h1>
-			<img className="header__logo" src={logo} alt="Kirby Face" width="50" />
-		</header>
+		<Box as="header" bg="#fc8e92" w="100%" p="4">
+			<Flex justify="center" align="center">
+				<Image src={logo} alt="Kirby Face" w="50px" mr="10px" />
+				<Text as="h1" fontWeight="bold" fontSize="24px" color="white">POYO's TODO</Text>
+			</Flex>
+		</Box>
+
 	)
 }
 

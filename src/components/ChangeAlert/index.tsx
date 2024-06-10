@@ -1,16 +1,17 @@
+import { Box, Button, Text } from '@chakra-ui/react';
 import { withStorageListener } from './withStorageListener';
 
 const ChangeAlert = ({ show, toggleShow }: any) => {
   if (show) {
     return (
-      <div>
-        <p>Hubo cambios</p>
-        <button
+      <Box>
+        <Text>Hubo cambios</Text>
+        <Button
           onClick={() => toggleShow(false)}
         >
           Recargar TODOS
-        </button>
-      </div>
+        </Button>
+      </Box>
     )
   } else {
     return null;

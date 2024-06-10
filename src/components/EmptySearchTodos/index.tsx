@@ -1,9 +1,11 @@
+import { Text } from "@chakra-ui/react";
+
 const EmptySearchTodos = ({ searchText }: any) => {
   console.log(searchText);
-  return(
-    <p className="TodoList-p TodoList--new">
+  return (
+    <Text textAlign="center">
       No hay ninguna coincidencia con <i>{searchText}</i>
-    </p>
+    </Text>
   );
 };
 
