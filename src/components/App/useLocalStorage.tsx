@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 
-function useLocalStorage(itemName, initialValue) {
+function useLocalStorage(itemName: any, initialValue: any) {
   const [state, dispatch] = useReducer(reducer, initialState({ initialValue }));
   const {
     sincronizedItem,
@@ -9,17 +9,17 @@ function useLocalStorage(itemName, initialValue) {
     item,
   } = state;
 
-  const onError = (error) => dispatch({
+  const onError = (error: any) => dispatch({
     type: actionTypes.error,
     payload: error
   });
 
-  const onSuccess = (item) => dispatch({
+  const onSuccess = (item: any) => dispatch({
     type: actionTypes.success,
     payload: item
   });
 
-  const onSave = (item) => dispatch({
+  const onSave = (item: any) => dispatch({
     type: actionTypes.save,
     payload: item
   });
@@ -42,19 +42,19 @@ function useLocalStorage(itemName, initialValue) {
         }
 
         onSuccess(parsedItem);
-      } catch(error) {
+      } catch (error) {
         onError(error);
       }
     }, 3000);
   }, [sincronizedItem]);
 
-  const saveItem = (newItem) => {
+  const saveItem = (newItem: any) => {
     try {
       const stringifiedItem = JSON.stringify(newItem);
       localStorage.setItem(itemName, stringifiedItem);
 
       onSave(newItem);
-    } catch(error) {
+    } catch (error) {
       onError(error);
     }
   };
@@ -73,7 +73,7 @@ function useLocalStorage(itemName, initialValue) {
   };
 }
 
-const initialState = ({ initialValue }) => ({
+const initialState = ({ initialValue }: any) => ({
   sincronizedItem: true,
   error: false,
   loading: true,
@@ -87,7 +87,7 @@ const actionTypes = {
   sincronize: 'SINCRONIZE',
 };
 
-const reducerObject = (state, payload) => ({
+const reducerObject = (state: any, payload: any) => ({
   [actionTypes.error]: {
     ...state,
     error: true,
@@ -110,7 +110,7 @@ const reducerObject = (state, payload) => ({
   }
 });
 
-const reducer = (state, action) => {
+const reducer = (state: any, action: any) => {
   return reducerObject(state, action.payload)[action.type] || state;
 };
 

@@ -1,7 +1,6 @@
-import React from 'react';
 import './TodoList.css'
 
-function TodoList(props) {
+function TodoList(props: any) {
   const renderFunc = props.children || props.render;
   return (
     <section className="TodoList-container">

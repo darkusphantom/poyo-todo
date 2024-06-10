@@ -1,7 +1,6 @@
-import React from 'react';
 import './TodoItem.css';
 
-function TodoItem(props) {
+function TodoItem(props: any) {
   return (
     <li className="TodoItem">
       <span

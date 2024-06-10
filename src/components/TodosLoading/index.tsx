@@ -1,4 +1,3 @@
-import React from 'react';
 import './TodosLoading.css'
 import loader from '../../img/gif/rolling-cat-cat-rolling.gif'; // url: https://c.tenor.com/_G85yMqj3zQAAAAi/rolling-cat-cat-rolling.gif"
 

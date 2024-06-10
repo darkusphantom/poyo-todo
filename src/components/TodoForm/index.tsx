@@ -4,10 +4,10 @@ import './TodoForm.css';
 const TodoForm =({
 	addTodo,
 	setOpenModal,
-}) => {
+}: any) => {
 	const [newTodoValue, setNewTodoValue] = React.useState('');
 
-	const onChange = (event) => {
+	const onChange = (event: any) => {
 		setNewTodoValue(event.target.value);
 	}
 
@@ -15,7 +15,7 @@ const TodoForm =({
 		setOpenModal(false);
 	}
 
-	const onSubmit = (event) => {
+	const onSubmit = (event: any) => {
 		event.preventDefault();
 		addTodo(newTodoValue);
 		setOpenModal(false);

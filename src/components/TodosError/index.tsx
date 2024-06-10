@@ -1,5 +1,3 @@
-import React from 'react';
-
 const TodosError = () => {
   return(
     <p className="TodoList-p TodoList--error">

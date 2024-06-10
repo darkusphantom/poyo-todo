@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import '../Header/Header.css';
-import { useTodos } from './useTodos';
+import { useTodos } from './useTodos.';
 import { TodoHeader } from '../TodoHeader';
 import { TodoCounter } from '../TodoCounter';
 import { TodoSearch } from '../TodoSearch';
@@ -60,10 +60,10 @@ const App = () => {
         onLoading={() => <TodosLoading />}
         onEmptyTodos={() => <EmptyTodos />}
         onEmptySearchTodos={
-          (searchText) => <EmptySearchTodos searchText={searchText} />
+          (searchText: any) => <EmptySearchTodos searchText={searchText} />
         }
       >
-        {todo => (
+        {(todo: any) => (
           <TodoItem
             key={todo.text}
             text={todo.text}

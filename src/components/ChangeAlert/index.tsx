@@ -1,13 +1,12 @@
-import React from 'react';
 import { withStorageListener } from './withStorageListener';
 
-const ChangeAlert = ({ show, toggleShow }) => {
+const ChangeAlert = ({ show, toggleShow }: any) => {
   if (show) {
     return (
       <div>
         <p>Hubo cambios</p>
         <button
-            onClick={() => toggleShow(false)}
+          onClick={() => toggleShow(false)}
         >
           Recargar TODOS
         </button>

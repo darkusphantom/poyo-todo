@@ -1,6 +1,4 @@
-import React from 'react';
-
-const EmptySearchTodos = ({ searchText }) => {
+const EmptySearchTodos = ({ searchText }: any) => {
   console.log(searchText);
   return(
     <p className="TodoList-p TodoList--new">

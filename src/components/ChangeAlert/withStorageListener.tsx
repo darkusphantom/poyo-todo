@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-const withStorageListener = (WrappedComponent) => {
-  return function WrapperComponentWithStorageListener(props) {
+const withStorageListener = (WrappedComponent: any) => {
+  return function WrapperComponentWithStorageListener(props: any) {
     const [storageChange, setStorageChange] = useState(false);
 
     window.addEventListener('storage', (change) => {
