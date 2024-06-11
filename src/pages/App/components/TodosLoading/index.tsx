@@ -1,4 +1,4 @@
-import loader from '../../img/gif/rolling-cat-cat-rolling.gif'; // url: https://c.tenor.com/_G85yMqj3zQAAAAi/rolling-cat-cat-rolling.gif"
+import loader from '../../../../assets/img/gif/loader-rolling-cat.gif'; // url: https://c.tenor.com/_G85yMqj3zQAAAAi/rolling-cat-cat-rolling.gif"
 import { Box, Image, Text } from '@chakra-ui/react';
 
 const TodosLoading = () => {

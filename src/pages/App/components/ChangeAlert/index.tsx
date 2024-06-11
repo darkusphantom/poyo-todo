@@ -1,5 +1,5 @@
 import { Box, Button, Text } from '@chakra-ui/react';
-import { withStorageListener } from './withStorageListener';
+import { withStorageListener } from '../../services/withStorageListener';
 
 const ChangeAlert = ({ show, toggleShow }: any) => {
   if (show) {

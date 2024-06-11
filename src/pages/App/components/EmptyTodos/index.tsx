@@ -7,6 +7,7 @@ const EmptyTodos = () => {
       mt="15vh"
       fontSize="16px"
       fontWeight="bold"
+      color="white"
     >
       Crea un TODO en el botón (+) para comenzar
     </Text>
