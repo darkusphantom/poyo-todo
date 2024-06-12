@@ -1,5 +1,5 @@
 import { Box, ChakraProvider } from '@chakra-ui/react'
-import * as ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';
 import './index.css';
 import App from './pages/App';
 import { Header } from './pages/App/components/Header';
