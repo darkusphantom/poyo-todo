@@ -7,7 +7,8 @@ const todayTaskNotCompleted = () => {
         const fetchData = async () => {
             try {
                 const data = await getTasksNotCompleted();
-                console.log(data);
+
+                console.log(data?.data);
             } catch (error) {
                 console.error('Error al obtener datos de la API de Notion:', error);
             }

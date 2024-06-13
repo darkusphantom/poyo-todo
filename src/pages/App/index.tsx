@@ -14,9 +14,11 @@ import { CreateTodoButton } from './components/CreateTodoButton';
 import { Modal } from './components/Modal';
 import { ChangeAlertWithStorageListener } from './components/ChangeAlert';
 import { Flex } from '@chakra-ui/react';
+import { todayTaskNotCompleted } from './services/useNotionAPI';
 
 const App = () => {
   const { states, updateState } = useTodos();
+  todayTaskNotCompleted()
 
   const {
     loading,

@@ -13,6 +13,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.7.0",
+    "axios": "^1.7.2",
     "framer-motion": "^11.2.10",
     "react": "18.2",
     "react-dom": "18.2",
