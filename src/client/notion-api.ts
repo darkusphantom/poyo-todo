@@ -1,7 +1,6 @@
 import axios from "axios"
-import { headerNotionConfig, notion } from "../config/notionConfig"
-import { NotionDatabaseAPI } from "../interfaces/notion-db.interface"
-import { getTodayDate, getTomorrowDate } from "../utils/date"
+import { API_ID_DB_TASKS, headerNotionConfig } from "../config/notionConfig"
+import { getTodayDate } from "../utils/date"
 import { checkErrorNotion } from "../utils/errorHandler"
 
 
@@ -70,22 +69,15 @@ export const getTasksNotCompleted = async () => {
             }
         ]
 
-        const databaseId = "b11b2142740644918c1945bfc0a91bea"
-        // const data = await notion.databases.query({
-        //     database_id: databaseId,
-        //     filter,
-        //     // sorts
-        // })
-        const data = axios.get(`/api/v1/databases/${databaseId}`, {
-            headers: headerNotionConfig,
-            // params: { filter, sorts }
-        })
+        const data = await axios.post(`/api/v1/databases/${API_ID_DB_TASKS}/query`,
+            { filter, sorts },
+            { headers: headerNotionConfig }
+        )
 
-
-
-        return await data;
+        return data;
     } catch (error: unknown) {
         checkErrorNotion(error)
+        console.error(error)
         return null
     }
 }
