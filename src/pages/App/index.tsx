@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import { useTodos } from './services/useTodos';
 import { TodoHeader } from './components/TodoHeader';
 import { TodoCounter } from './components/TodoCounter';
@@ -16,6 +15,7 @@ import { ChangeAlertWithStorageListener } from './components/ChangeAlert';
 import { Flex } from '@chakra-ui/react';
 import { todayTaskNotCompleted } from './services/useNotionAPI';
 import { TodoTab } from './components/TodoTab';
+import { Fragment } from 'react/jsx-runtime';
 
 const App = () => {
   const { states, updateState } = useTodos();
