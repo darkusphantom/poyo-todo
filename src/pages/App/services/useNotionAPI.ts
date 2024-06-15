@@ -1,9 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getTasksNotCompleted } from "../../../client/notion-api";
 import { formatDate } from "../../../utils/date";
 
 
 const todayTaskNotCompleted = () => {
+    const [tasksToday, setTasksToday] = useState<any[]>([]);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -21,25 +23,16 @@ const todayTaskNotCompleted = () => {
                         url: task.url
                     }
                 });
-                console.log(tasks[0])
-                // const tasksToShow = tasks.map((task: any, index: number) => {
-                //     const limitDate = formatDate(task.task['Fecha Limite'].date?.start)
-                //     const taskName = task.task['Nombre'].title[0].plain_text
-
-                //     return `${index + 1}. ${taskName} (${task.task['Prioridad'].select?.name.toLocaleUpperCase()}) | ${limitDate}`
-                // })
-
-                // const message = `Total tareas pendientes: ${tasks.length}\n\n${tasksToShow.join('\n\n')}`
-
-                // console.log(res.data);
+                setTasksToday(tasks);
             } catch (error) {
                 console.error('Error al obtener datos de la API de Notion:', error);
             }
         };
 
         fetchData();
-    }, []); // Se ejecutará solo una vez al cargar el componente
+    }, []);
 
+    return { tasksToday };
 }
 
 export { todayTaskNotCompleted }	

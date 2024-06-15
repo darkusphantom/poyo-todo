@@ -13,11 +13,11 @@ const Modal = ({ children }: any) => {
       justifyContent="center"
       alignItems="center"
       bg="rgba(32,35,41,.8)"
-      color="white"
+      color="black"
     >
       {children}
     </Box>
-  , document.getElementById('modal') as HTMLElement
+    , document.getElementById('modal') as HTMLElement
   )
 }
 
