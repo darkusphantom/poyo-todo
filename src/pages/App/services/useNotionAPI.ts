@@ -1,35 +1,58 @@
-import { useEffect, useReducer, useState } from "react";
-import { getTasksNotCompleted } from "../../../client/notion-api";
+import { useEffect, useState } from "react";
+import { getTasksToday, getTasksSomeday, getTasksToBeDone, getTasksNotCompleted } from "../../../client/notion-api";
 import { formatDate } from "../../../utils/date";
-import { Task } from "../../../interfaces/task.interface";
 
 
-const useTasks = (typeTask: string) => {
+const useTasks = () => {
+    const [tasksNotCompleted, setTasksNotCompleted] = useState<any[]>([]);
     const [tasksToday, setTasksToday] = useState<any[]>([]);
+    const [tasksToBeDone, setTasksToBeDone] = useState<any[]>([]);
+    const [tasksForSomeday, setTasksForSomeday] = useState<any[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        const fetchData = async () => {
-           
-            if(typeTask === "today") {
-               const tasksToday =  await getTaskToday()
-               setTasksToday(tasksToday)
-            }
+        const fetchData = () => {
+            setTimeout(async () => {
+                setLoading(true);
+                const tasksNotCompleted = await getTasksNotCompleted();
+                setTasksNotCompleted(getFormatTask(tasksNotCompleted?.data.results))
+
+                const tasksToday = await getTasksToday();
+                setTasksToday(getFormatTask(tasksToday?.data.results))
+
+                const tasksToBeDone = await getTasksToBeDone()
+                setTasksToBeDone(getFormatTask(tasksToBeDone?.data.results))
+
+                const tasksSomeday = await getTasksSomeday()
+                setTasksForSomeday(getFormatTask(tasksSomeday?.data.results))
+
+                setLoading(false);
+            }, 3000);
+
         };
 
         fetchData();
     }, []);
 
-    return { tasksToday };
+    return {
+        tasksNotCompleted,
+        tasksToday,
+        tasksToBeDone,
+        tasksForSomeday,
+        setTasksToday,
+        setTasksToBeDone,
+        setTasksForSomeday,
+        loading,
+    };
 }
 
-const getTaskToday = async (): Promise<Task[]> => {
+const getFormatTask = (task: any) => {
     try {
-        const res = await getTasksNotCompleted();
-        if (!res) {
+        if (!task) {
             console.log('No hay tareas pendientes');
             return [];
         }
-        const tasks = res.data.results.map((task: any) => {
+        const tasks = task.map((task: any) => {
             return {
                 text: task.properties['Nombre'].title[0].plain_text,
                 limitDate: formatDate(task.properties['Fecha Limite'].date?.start),
@@ -40,11 +63,9 @@ const getTaskToday = async (): Promise<Task[]> => {
         });
         return tasks;
     } catch (error) {
-        console.error('Error al obtener datos de la API de Notion:', error);
+        console.error('Error al obtener las tareas:', error);
         return []
     }
 }
-
-
 
 export { useTasks }	

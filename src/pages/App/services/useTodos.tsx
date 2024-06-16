@@ -1,15 +1,19 @@
 import React from 'react'
 import { useLocalStorage } from './useLocalStorage'
-import { useTasks } from './useNotionAPI'
 
-const useTodos = () => {
+/**
+ * Custom hook for managing todos. Manages todo state, adding, completing, and deleting all todos.
+ *
+ * @return {Object} Object containing states and functions to update todo state
+ */
+const useTodos = (todos: any) => {
     const {
         saveItem: saveTodos,
         sincronizeItem: sincronizeTodos,
         loading,
         error,
     } = useLocalStorage('TODO_V1', [])
-    const { tasksToday: todos } = useTasks('today')
+    // const { tasksNotCompleted: todos } = useTasks()
 
     const [searchValue, setSearchValue] = React.useState('')
     const [openModal, setOpenModal] = React.useState(false)
@@ -35,7 +39,7 @@ const useTodos = () => {
             completed: false,
             text,
         })
-        saveTodos(newTodos)
+        // saveTodos(newTodos)
     }
 
     const completeTodo = (text: any) => {
@@ -53,7 +57,7 @@ const useTodos = () => {
         const todoIndex = todos.findIndex((todo: any) => todo.text === text)
         const newTodos = [...todos]
         newTodos.splice(todoIndex, 1)
-        saveTodos(newTodos)
+        // saveTodos(newTodos)
     }
 
     const states = {
