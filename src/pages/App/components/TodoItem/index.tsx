@@ -1,6 +1,7 @@
 import { Box, Text } from '@chakra-ui/react';
 
 function TodoItem(props: any) {
+  console.log(props)
   return (
     <Box
       backgroundColor="#FAFAFA"
