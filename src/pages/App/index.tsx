@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import { useTodos } from './services/useTodos';
 import { TodoHeader } from './components/TodoHeader';
 import { TodoCounter } from './components/TodoCounter';
@@ -14,9 +13,13 @@ import { CreateTodoButton } from './components/CreateTodoButton';
 import { Modal } from './components/Modal';
 import { ChangeAlertWithStorageListener } from './components/ChangeAlert';
 import { Flex } from '@chakra-ui/react';
+import { todayTaskNotCompleted } from './services/useNotionAPI';
+import { TodoTab } from './components/TodoTab';
+import { Fragment } from 'react/jsx-runtime';
 
 const App = () => {
   const { states, updateState } = useTodos();
+  const { tasksToday } = todayTaskNotCompleted()
 
   const {
     loading,
@@ -37,21 +40,8 @@ const App = () => {
     setOpenModal,
   } = updateState;
 
-  return (
-    <Fragment>
-      <TodoHeader loading={loading}>
-        <TodoCounter
-          totalTodos={totalTodos}
-          completedTodos={completedTodos}
-        />
-        <Flex alignContent="center" justifyContent="center">
-          <TodoSearch
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-          />
-        </Flex>
-      </TodoHeader>
-
+  const todoTasksContent = () => {
+    return (
       <TodoList
         error={error}
         loading={loading}
@@ -75,7 +65,26 @@ const App = () => {
           />
         )}
       </TodoList>
+    )
+  }
 
+  return (
+    <Fragment>
+      <TodoHeader loading={loading}>
+
+        <TodoCounter
+          totalTodos={totalTodos}
+          completedTodos={completedTodos}
+        />
+        <Flex alignContent="center" justifyContent="center">
+          <TodoSearch
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+          />
+        </Flex>
+      </TodoHeader>
+
+      <TodoTab todayTaskList={todoTasksContent} />
       {
         !!openModal && (
           <Modal>
