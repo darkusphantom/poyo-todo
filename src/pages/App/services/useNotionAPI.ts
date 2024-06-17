@@ -1,38 +1,79 @@
 import { useEffect, useState } from "react";
-import { getTasksNotCompleted } from "../../../client/notion-api";
+import { getTasksToday, getTasksSomeday, getTasksToBeDone, getTasksNotCompleted } from "../../../client/notion-api";
 import { formatDate } from "../../../utils/date";
+import { TaskItem } from "../../../interfaces/task.interface";
 
 
-const todayTaskNotCompleted = () => {
+const useTasks = () => {
+    const [tasksNotCompleted, setTasksNotCompleted] = useState<any[]>([]);
     const [tasksToday, setTasksToday] = useState<any[]>([]);
+    const [tasksToBeDone, setTasksToBeDone] = useState<any[]>([]);
+    const [tasksForSomeday, setTasksForSomeday] = useState<any[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await getTasksNotCompleted();
-                if (!res) {
-                    console.log('No hay tareas pendientes');
-                    return [];
-                }
-                const tasks = res.data.results.map((task: any) => {
-                    return {
-                        name: task.properties['Nombre'].title[0].plain_text,
-                        limitDate: formatDate(task.properties['Fecha Limite'].date?.start),
-                        priority: task.properties['Prioridad'].select?.name.toLocaleUpperCase(),
-                        type: task.properties['Tipo'].select?.name,
-                        url: task.url
-                    }
-                });
-                setTasksToday(tasks);
-            } catch (error) {
-                console.error('Error al obtener datos de la API de Notion:', error);
-            }
+        const fetchData = () => {
+            setTimeout(async () => {
+                setLoading(true);
+                const tasksNotCompleted = await getTasksNotCompleted();
+                setTasksNotCompleted(getFormatTask(tasksNotCompleted?.data.results))
+
+                const tasksToday = await getTasksToday();
+                setTasksToday(getFormatTask(tasksToday?.data.results))
+
+                const tasksToBeDone = await getTasksToBeDone()
+                setTasksToBeDone(getFormatTask(tasksToBeDone?.data.results))
+
+                const tasksSomeday = await getTasksSomeday()
+                setTasksForSomeday(getFormatTask(tasksSomeday?.data.results))
+
+                setLoading(false);
+            }, 3000);
+
         };
 
         fetchData();
     }, []);
 
-    return { tasksToday };
+    const saveTask = (task: TaskItem) => {
+        console.log(task)
+    }
+
+    return {
+        tasksNotCompleted,
+        tasksToday,
+        tasksToBeDone,
+        tasksForSomeday,
+        setTasksToday,
+        setTasksToBeDone,
+        setTasksForSomeday,
+        loading,
+        saveTask
+    };
 }
 
-export { todayTaskNotCompleted }	
+const getFormatTask = (task: any) => {
+    try {
+        if (!task) {
+            console.log('No hay tareas pendientes');
+            return [];
+        }
+        const tasks = task.map((task: any) => {
+            return {
+                id: task.id,
+                completed: task.properties['Check'].checkbox,
+                text: task.properties['Nombre'].title[0].plain_text,
+                limitDate: formatDate(task.properties['Fecha Limite'].date?.start),
+                priority: task.properties['Prioridad'].select?.name.toLocaleUpperCase(),
+                type: task.properties['Tipo'].select?.name,
+                url: task.url
+            }
+        });
+        return tasks;
+    } catch (error) {
+        console.error('Error al obtener las tareas:', error);
+        return []
+    }
+}
+
+export { useTasks }	
