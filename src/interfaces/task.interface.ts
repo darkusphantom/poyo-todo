@@ -9,6 +9,7 @@
  * @property {string} url - URL asociada a la tarea.
  */
 export interface Task {
+    id: string;
     limitDate: string;
     text: string;
     priority: string;

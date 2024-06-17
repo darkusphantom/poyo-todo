@@ -59,6 +59,7 @@ const TodoTasksContent = ({
                         key={todo.url}
                         text={todo.text}
                         type={todo.type}
+                        limitDate={todo.limitDate}
                         completed={todo.completed}
                         onComplete={() => completeTodo(todo.text)}
                         onDelete={() => deleteTodo(todo.text)}

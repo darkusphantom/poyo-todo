@@ -1,6 +1,13 @@
 import { Box, Flex, Text } from '@chakra-ui/react'
 
-function TodoItem(props: any) {
+function TodoItem({
+    onComplete,
+    onDelete,
+    completed,
+    text,
+    type,
+    limitDate,
+}: any) {
     return (
         <Box
             backgroundColor="#FAFAFA"
@@ -12,16 +19,15 @@ function TodoItem(props: any) {
             boxShadow="0px 5px 50px rgba(32, 35, 41, 0.15)"
         >
             <Box
-                className={`Icon Icon-check ${
-                    props.completed ? 'Icon-check--active' : ''
-                }`}
-                onClick={props.onComplete}
+                onClick={onComplete}
                 cursor="pointer"
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
                 height="48px"
                 width="48px"
+                bg={completed ? '#fe6f74' : 'transparent'}
+                borderRadius={completed ? '50%' : 'none'}
                 fontSize="24px"
                 fontWeight="bold"
             >
@@ -35,36 +41,46 @@ function TodoItem(props: any) {
                 gap={2}
             >
                 <Text
-                    textDecoration={props.completed ? 'line-through' : 'none'}
+                    textDecoration={completed ? 'line-through' : 'none'}
                     fontSize="18px"
                     lineHeight="24px"
                     fontWeight="600"
                     color="#fe6f74"
                 >
-                    {props.text}
+                    {text}
                 </Text>
-                <Text
-                    textDecoration={props.completed ? 'line-through' : 'none'}
-                    fontSize="14px"
-                    fontWeight="400"
-                    color="#fe6f74"
-                >
-                    {props.type}
-                </Text>
+                <Flex gap={2}>
+                    <Text
+                        textDecoration={completed ? 'line-through' : 'none'}
+                        fontSize="14px"
+                        fontWeight="400"
+                        color="#fe6f74"
+                    >
+                        {type}
+                    </Text>
+                    <Text
+                        textDecoration={completed ? 'line-through' : 'none'}
+                        fontSize="14px"
+                        fontWeight="400"
+                        color="#fe6f74"
+                    >
+                        | {limitDate}
+                    </Text>
+                </Flex>
             </Flex>
             <Box
                 className="Icon Icon-delete"
-                onClick={props.onDelete}
+                onClick={onDelete}
                 cursor="pointer"
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                height="48px"
-                width="48px"
+                height="32px"
+                width="32px"
                 fontSize="18px"
                 position="absolute"
-                top="50%"
-                right="10px"
+                top="5px"
+                right="-25px"
                 background="#c4c4c4"
                 borderRadius="50%"
                 color="white"

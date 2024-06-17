@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getTasksToday, getTasksSomeday, getTasksToBeDone, getTasksNotCompleted } from "../../../client/notion-api";
 import { formatDate } from "../../../utils/date";
+import { TaskItem } from "../../../interfaces/task.interface";
 
 
 const useTasks = () => {
@@ -34,6 +35,10 @@ const useTasks = () => {
         fetchData();
     }, []);
 
+    const saveTask = (task: TaskItem) => {
+        console.log(task)
+    }
+
     return {
         tasksNotCompleted,
         tasksToday,
@@ -43,6 +48,7 @@ const useTasks = () => {
         setTasksToBeDone,
         setTasksForSomeday,
         loading,
+        saveTask
     };
 }
 
@@ -54,6 +60,8 @@ const getFormatTask = (task: any) => {
         }
         const tasks = task.map((task: any) => {
             return {
+                id: task.id,
+                completed: task.properties['Check'].checkbox,
                 text: task.properties['Nombre'].title[0].plain_text,
                 limitDate: formatDate(task.properties['Fecha Limite'].date?.start),
                 priority: task.properties['Prioridad'].select?.name.toLocaleUpperCase(),

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLocalStorage } from './useLocalStorage'
+import { deleteTask, updateTask } from '../../../client/notion-api'
 
 /**
  * Custom hook for managing todos. Manages todo state, adding, completing, and deleting all todos.
@@ -8,7 +9,7 @@ import { useLocalStorage } from './useLocalStorage'
  */
 const useTodos = (todos: any) => {
     const {
-        saveItem: saveTodos,
+        // saveItem: saveTodos,
         sincronizeItem: sincronizeTodos,
         loading,
         error,
@@ -49,15 +50,18 @@ const useTodos = (todos: any) => {
             newTodos[todoIndex].completed = false
         } else {
             newTodos[todoIndex].completed = true
+            console.log(newTodos[todoIndex])
         }
-        saveTodos(newTodos)
+        updateTask(newTodos[todoIndex])
+        // saveTodos(newTodos)
     }
 
     const deleteTodo = (text: any) => {
         const todoIndex = todos.findIndex((todo: any) => todo.text === text)
         const newTodos = [...todos]
         newTodos.splice(todoIndex, 1)
-        // saveTodos(newTodos)
+        console.log(newTodos)
+        deleteTask(todos[todoIndex])
     }
 
     const states = {
