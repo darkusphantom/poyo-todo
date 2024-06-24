@@ -10,8 +10,13 @@ import { useTasks } from './services/useNotionAPI'
 import { TodoTasksContent } from './components/TodoListContent'
 
 const App = () => {
-    const { tasksNotCompleted, tasksToday, tasksToBeDone, tasksForSomeday } =
-        useTasks()
+    const {
+        tasksNotCompleted,
+        tasksToday,
+        tasksToBeDone,
+        tasksForSomeday,
+        tasksTomorrow,
+    } = useTasks()
     const { states, updateState } = useTodos(tasksNotCompleted)
     const { states: taskTodayState, updateState: updateStateTaskToday } =
         useTodos(tasksToday)
@@ -19,6 +24,9 @@ const App = () => {
         useTodos(tasksToBeDone)
     const { states: taskSomedayState, updateState: updateStateTaskSomeday } =
         useTodos(tasksForSomeday)
+
+    const { states: tasksForTomorrow, updateState: updateStateTaskTomorrow } =
+        useTodos(tasksTomorrow)
 
     const {
         loading,
@@ -72,7 +80,18 @@ const App = () => {
                             />
                         </TabPanel>
                         <TabPanel>
-                            <h2>Tomorrow</h2>
+                            <TodoTasksContent
+                                error={tasksForTomorrow.error}
+                                loading={tasksForTomorrow.loading}
+                                totalTodos={tasksForTomorrow.totalTodos}
+                                searchedTodos={tasksForTomorrow.searchedTodos}
+                                searchText={searchValue}
+                                setSearchValue={
+                                    updateStateTaskTomorrow.setSearchValue
+                                }
+                                completeTodo={tasksForTomorrow.completedTodos}
+                                deleteTodo={deleteTodo}
+                            />
                         </TabPanel>
                         <TabPanel>
                             <TodoTasksContent
