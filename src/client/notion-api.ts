@@ -2,7 +2,9 @@ import axios from "axios"
 import { API_ID_DB_TASKS, headerNotionConfig } from "../config/notionConfig"
 import { getTodayDate, getTomorrowDate } from "../utils/date"
 import { checkErrorNotion } from "../utils/errorHandler"
-import { TaskItem } from "../interfaces/task.interface"
+import { CreateTask, TaskItem } from "../interfaces/task.interface"
+import { generateToDoList } from "../utils/notionProperties"
+import { getEmojiByTaskArea, getTaskAreaColor, getTaskColorByType, getTaskEffortColor, getTaskPriorityColor } from "../utils/notionColor"
 
 /**
  * Retrieves tasks that are not completed from the Notion database.
@@ -310,6 +312,103 @@ export const deleteTask = async (task: TaskItem) => {
             }
         }
         const data = await axios.patch(`/api/v1/pages/${task.id}`, updatedTask, { headers: headerNotionConfig })
+        return data
+    } catch (error: unknown) {
+        checkErrorNotion(error)
+        console.error("Error al obtener los datos:", error)
+        return null
+    }
+}
+
+export const createNewTask = async (task: CreateTask) => {
+    try {
+        const body = {
+            "parent": {
+                "database_id": API_ID_DB_TASKS
+            },
+            "icon": {
+                "emoji": getEmojiByTaskArea(task.area)
+            },
+            "properties": {
+                "Check": {
+                    "type": "checkbox",
+                    "checkbox": false
+                },
+                "Esfuerzo": {
+                    "type": "select",
+                    "select": {
+                        "name": task.effort,
+                        "color": getTaskEffortColor(task.effort)
+                    }
+                },
+                "Área": {
+                    "type": "select",
+                    "select": {
+                        "name": task.area,
+                        "color": getTaskAreaColor(task.area)
+                    }
+                },
+                "Tipo": {
+                    "type": "select",
+                    "select": {
+                        "name": task.type,
+                        "color": getTaskColorByType(task.type)
+                    }
+                },
+                "Fecha Limite": {
+                    "type": "date",
+                    "date": {
+                        "start": task.startDate ? task.startDate : getTodayDate(),
+                        "end": task.endDate ? task.endDate : null,
+                        "time_zone": null
+                    }
+                },
+                "Prioridad": {
+                    "type": "select",
+                    "select": {
+                        "name": task.priority,
+                        "color": getTaskPriorityColor(task.priority)
+                    }
+                },
+                "Proyectos": {
+                    "type": "relation",
+                    "relation": [],
+                    "has_more": false
+                },
+                "Nombre": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": task.title,
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": task.title,
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "children": [
+                ...generateToDoList(["Tarea 1", "Tarea 2", "Tarea 3"])
+            ]
+        }
+
+
+        const data = await axios.post(`/api/v1/pages`,
+            body, { headers: headerNotionConfig }
+        )
+
         return data
     } catch (error: unknown) {
         checkErrorNotion(error)
