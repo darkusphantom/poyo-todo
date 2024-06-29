@@ -27,9 +27,7 @@ export const formatDate = (date: any): string => {
  */
 export const getTomorrowDate = () => {
     const today = new Date();
-    console.log("TODAY: ", today)
     const tomorrow = today.setDate(today.getDate() + 1);
-    console.log("TOMORROW: ", tomorrow)
     return new Date(tomorrow);
 }
 

@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { getTasksToday, getTasksSomeday, getTasksToBeDone, getTasksNotCompleted } from "../../../client/notion-api";
-import { formatDate } from "../../../utils/date";
-import { TaskItem } from "../../../interfaces/task.interface";
+import { getTasksToday, getTasksSomeday, getTasksToBeDone, getTasksNotCompleted, getTasksForTomorrow, createNewTask } from "../../../client/notion-api";
+import { CreateTask } from "../../../interfaces/task.interface";
+import { getFormatTask } from "../../../utils/notionProperties";
+import { NotionDatabase } from "../../../interfaces/notion-db.interface";
 
 
 const useTasks = () => {
     const [tasksNotCompleted, setTasksNotCompleted] = useState<any[]>([]);
     const [tasksToday, setTasksToday] = useState<any[]>([]);
+    const [tasksTomorrow, setTasksTomorrow] = useState<any[]>([]);
     const [tasksToBeDone, setTasksToBeDone] = useState<any[]>([]);
     const [tasksForSomeday, setTasksForSomeday] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -20,6 +22,9 @@ const useTasks = () => {
 
                 const tasksToday = await getTasksToday();
                 setTasksToday(getFormatTask(tasksToday?.data.results))
+
+                const tasksTomorrow = await getTasksForTomorrow();
+                setTasksTomorrow(getFormatTask(tasksTomorrow?.data.results))
 
                 const tasksToBeDone = await getTasksToBeDone()
                 setTasksToBeDone(getFormatTask(tasksToBeDone?.data.results))
@@ -35,16 +40,19 @@ const useTasks = () => {
         fetchData();
     }, []);
 
-    const saveTask = (task: TaskItem) => {
-        console.log(task)
+    const saveTask = async (task: CreateTask): Promise<any> => {
+        const newTask = await createNewTask(task)
+        return newTask
     }
 
     return {
         tasksNotCompleted,
         tasksToday,
+        tasksTomorrow,
         tasksToBeDone,
         tasksForSomeday,
         setTasksToday,
+        setTasksTomorrow,
         setTasksToBeDone,
         setTasksForSomeday,
         loading,
@@ -52,28 +60,6 @@ const useTasks = () => {
     };
 }
 
-const getFormatTask = (task: any) => {
-    try {
-        if (!task) {
-            console.log('No hay tareas pendientes');
-            return [];
-        }
-        const tasks = task.map((task: any) => {
-            return {
-                id: task.id,
-                completed: task.properties['Check'].checkbox,
-                text: task.properties['Nombre'].title[0].plain_text,
-                limitDate: formatDate(task.properties['Fecha Limite'].date?.start),
-                priority: task.properties['Prioridad'].select?.name.toLocaleUpperCase(),
-                type: task.properties['Tipo'].select?.name,
-                url: task.url
-            }
-        });
-        return tasks;
-    } catch (error) {
-        console.error('Error al obtener las tareas:', error);
-        return []
-    }
-}
+
 
 export { useTasks }	

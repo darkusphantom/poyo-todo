@@ -21,6 +21,7 @@ export default defineConfig({
     proxy: {
       "/api": {
         target: "https://api.notion.com",
+        secure: false,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
         
