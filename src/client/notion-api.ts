@@ -1,10 +1,11 @@
 import axios from "axios"
-import { API_ID_DB_TASKS, headerNotionConfig } from "../config/notionConfig"
-import { getTodayDate, getTomorrowDate } from "../utils/date"
+import { API_ID_DB_TASKS } from "../config/notionConfig"
+import { getTodayDate } from "../utils/date"
 import { checkErrorNotion } from "../utils/errorHandler"
 import { CreateTask, TaskItem } from "../interfaces/task.interface"
 import { generateToDoList } from "../utils/notionProperties"
 import { getEmojiByTaskArea, getTaskAreaColor, getTaskColorByType, getTaskEffortColor, getTaskPriorityColor } from "../utils/notionColor"
+import { baseNotionApiClient, headerNotionConfig } from "./config"
 
 /**
  * Retrieves tasks that are not completed from the Notion database.
@@ -41,9 +42,8 @@ export const getTasksNotCompleted = async () => {
             }
         ]
 
-        const data = await axios.post(`/api/v1/databases/${API_ID_DB_TASKS}/query`,
+        const data = await baseNotionApiClient.post<any>(`/api/v1/databases/${API_ID_DB_TASKS}/query`,
             { filter, sorts },
-            { headers: headerNotionConfig }
         )
 
         return data;
