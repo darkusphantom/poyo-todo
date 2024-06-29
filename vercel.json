@@ -3,6 +3,11 @@
         {
             "source": "/(.*)",
             "destination": "/"
+        },
+        {
+            "source": "/api",
+            "destination": "https://api.notion.com"
         }
-    ]
+    ],
+    "trailingSlash": false
 }
