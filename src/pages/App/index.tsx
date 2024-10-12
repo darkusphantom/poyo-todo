@@ -9,44 +9,53 @@ import { Fragment } from 'react/jsx-runtime'
 import { useTasks } from './services/useNotionAPI'
 import { TodoTasksContent } from './components/TodoListContent'
 import { HeaderPage } from './components/Header'
+import { useEffect } from 'react'
+import { getNotionData } from '../../services/notionAuth'
+import { API_ID_DB_TASKS } from '../../config'
 
 const App: React.FC = () => {
-    const {
-        tasksNotCompleted,
-        tasksToday,
-        tasksToBeDone,
-        tasksForSomeday,
-        tasksTomorrow,
-    } = useTasks()
-    const { states, updateState } = useTodos(tasksNotCompleted)
-    const { states: taskTodayState, updateState: updateStateTaskToday } =
-        useTodos(tasksToday)
-    const { states: taskToBeDoneState, updateState: updateStateTaskToBeDone } =
-        useTodos(tasksToBeDone)
-    const { states: taskSomedayState, updateState: updateStateTaskSomeday } =
-        useTodos(tasksForSomeday)
+    // const {
+    //     tasksNotCompleted,
+    //     tasksToday,
+    //     tasksToBeDone,
+    //     tasksForSomeday,
+    //     tasksTomorrow,
+    // } = useTasks()
+    // const { states, updateState } = useTodos(tasksNotCompleted)
+    // const { states: taskTodayState, updateState: updateStateTaskToday } =
+    //     useTodos(tasksToday)
+    // const { states: taskToBeDoneState, updateState: updateStateTaskToBeDone } =
+    //     useTodos(tasksToBeDone)
+    // const { states: taskSomedayState, updateState: updateStateTaskSomeday } =
+    //     useTodos(tasksForSomeday)
 
-    const { states: tasksForTomorrow, updateState: updateStateTaskTomorrow } =
-        useTodos(tasksTomorrow)
+    // const { states: tasksForTomorrow, updateState: updateStateTaskTomorrow } =
+    //     useTodos(tasksTomorrow)
 
-    const {
-        loading,
-        error,
-        totalTodos,
-        searchValue,
-        searchedTodos,
-        openModal,
-        sincronizeTodos,
-    } = states
+    // const {
+    //     loading,
+    //     error,
+    //     totalTodos,
+    //     searchValue,
+    //     searchedTodos,
+    //     openModal,
+    //     sincronizeTodos,
+    // } = states
 
-    const { setSearchValue, completeTodo, addTodo, deleteTodo, setOpenModal } =
-        updateState
+    // const { setSearchValue, completeTodo, addTodo, deleteTodo, setOpenModal } =
+    //     updateState
+
+    useEffect(() => {
+        getNotionData(API_ID_DB_TASKS).then((data) => {
+            console.log('data', data)
+        })
+    }, [])
 
     return (
         <Fragment>
             <HeaderPage />
             <Box my="0" px="24px" bg="#ffcbcf" position="relative" minH="100vh">
-                <TodoHeader loading={loading}>
+                {/* <TodoHeader loading={loading}>
                     <Tabs isFitted variant="enclosed">
                         <TabList mb="1em">
                             <Tab>All</Tab>
@@ -138,20 +147,20 @@ const App: React.FC = () => {
                             </TabPanel>
                         </TabPanels>
                     </Tabs>
-                </TodoHeader>
+                </TodoHeader> */}
 
-                {!!openModal && (
+                {/* {!!openModal && (
                     <Modal>
                         <TodoForm
                             addTodo={addTodo}
                             setOpenModal={setOpenModal}
                         />
                     </Modal>
-                )}
+                )} */}
 
-                <CreateTodoButton setOpenModal={setOpenModal} />
+                {/* <CreateTodoButton setOpenModal={setOpenModal} /> */}
 
-                <ChangeAlertWithStorageListener sincronize={sincronizeTodos} />
+                {/* <ChangeAlertWithStorageListener sincronize={sincronizeTodos} /> */}
             </Box>
         </Fragment>
     )

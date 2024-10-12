@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getTasksToday, getTasksSomeday, getTasksToBeDone, getTasksNotCompleted, getTasksForTomorrow, createNewTask } from "../../../client/notion-api";
+import { getTasksToday, getTasksSomeday, getTasksToBeDone, getTasksNotCompleted, getTasksForTomorrow, createNewTask } from "../../../services/notion-api";
 import { CreateTask } from "../../../interfaces/task.interface";
 import { getFormatTask } from "../../../utils/notionProperties";
 import { NotionDatabase } from "../../../interfaces/notion-db.interface";

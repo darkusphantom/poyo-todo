@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocalStorage } from './useLocalStorage'
-import { deleteTask, updateTask } from '../../../client/notion-api'
+import { deleteTask, updateTask } from '../../../services/notion-api'
 import { CreateTask } from '../../../interfaces/task.interface'
 import { useTasks } from './useNotionAPI'
 import { getFormatTask } from '../../../utils/notionProperties'

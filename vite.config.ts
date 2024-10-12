@@ -25,7 +25,11 @@ export default defineConfig({
       '/api': {
         target: 'https://api.notion.com',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        rewrite: (path) => path.replace(/^\/api/, ''),
+        secure: false,
+        headers: {
+          'Notion-Version': '2022-06-28'
+        }
       }
     }
   }

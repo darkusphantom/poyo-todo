@@ -1,5 +1,5 @@
 import axios from "axios"
-import { API_ID_DB_TASKS } from "../config/notionConfig"
+import { API_ID_DB_TASKS } from "../config"
 import { getTodayDate } from "../utils/date"
 import { checkErrorNotion } from "../utils/errorHandler"
 import { CreateTask, TaskItem } from "../interfaces/task.interface"
