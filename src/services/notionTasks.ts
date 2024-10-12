@@ -4,8 +4,9 @@ import { getTodayDate } from "../utils/date"
 import { checkErrorNotion } from "../utils/errorHandler"
 import { CreateTask, TaskItem } from "../interfaces/task.interface"
 import { generateToDoList } from "../utils/notionProperties"
-import { getEmojiByTaskArea, getTaskAreaColor, getTaskColorByType, getTaskEffortColor, getTaskPriorityColor } from "../utils/notionColor"
-import { baseNotionApiClient, headerNotionConfig } from "./config"
+import { getEmojiByTaskArea } from "../utils/notionColor"
+import { baseNotionApiClient } from "./config"
+import { NotionFilter, NotionSort } from "../interfaces/notion-db.interface"
 
 /**
  * Retrieves tasks that are not completed from the Notion database.
@@ -14,7 +15,7 @@ import { baseNotionApiClient, headerNotionConfig } from "./config"
  */
 export const getTasksNotCompleted = async () => {
     try {
-        const filter = {
+        const filter: NotionFilter = {
             and: [
                 {
                     property: "Check",
@@ -31,7 +32,7 @@ export const getTasksNotCompleted = async () => {
             ],
         }
 
-        const sorts = [
+        const sorts: NotionSort[] = [
             {
                 "property": "Fecha Limite",
                 "direction": "ascending"
@@ -42,7 +43,7 @@ export const getTasksNotCompleted = async () => {
             }
         ]
 
-        const data = await baseNotionApiClient.post<any>(`/api/v1/databases/${API_ID_DB_TASKS}/query`,
+        const data = await baseNotionApiClient.post<any>(`/v1/databases/${API_ID_DB_TASKS}/query`,
             { filter, sorts },
         )
 
@@ -61,7 +62,7 @@ export const getTasksNotCompleted = async () => {
  */
 export const getTasksToday = async () => {
     try {
-        const filter = {
+        const filter: NotionFilter = {
             or: [
                 // Filtrado por acciones
                 {
@@ -76,6 +77,23 @@ export const getTasksToday = async () => {
                             property: "Fecha Limite",
                             date: {
                                 on_or_before: getTodayDate()
+                            }
+                        },
+                        {
+                            property: 'Tipo',
+                            select: {
+                                equals: '✅ Accionable',
+                            },
+                        },
+                    ],
+                },
+                // Filtrado por acciones
+                {
+                    and: [
+                        {
+                            property: "Fecha Limite",
+                            date: {
+                                equals: getTodayDate()
                             }
                         },
                         {
@@ -112,16 +130,15 @@ export const getTasksToday = async () => {
             ],
         }
 
-        const sorts = [
+        const sorts: NotionSort[] = [
             {
                 "property": "Fecha Limite",
                 "direction": "ascending"
             }
         ]
 
-        const data = await axios.post(`/api/v1/databases/${API_ID_DB_TASKS}/query`,
+        const data = await baseNotionApiClient.post(`/v1/databases/${API_ID_DB_TASKS}/query`,
             { filter, sorts },
-            { headers: headerNotionConfig }
         )
 
         return data;
@@ -132,9 +149,14 @@ export const getTasksToday = async () => {
     }
 }
 
+/**
+ * Retrieves tasks for tomorrow from the Notion database.
+ *
+ * @return {Promise<NotionDatabaseAPI | null>} A promise that resolves with the data of the tasks or null if an error occurs.
+ */
 export const getTasksForTomorrow = async () => {
     try {
-        const filter = {
+        const filter: NotionFilter = {
             or: [
                 // Filtrado por acciones
                 {
@@ -185,16 +207,15 @@ export const getTasksForTomorrow = async () => {
             ],
         }
 
-        const sorts = [
+        const sorts: NotionSort[] = [
             {
                 "property": "Fecha Limite",
                 "direction": "ascending"
             }
         ]
 
-        const data = await axios.post(`/api/v1/databases/${API_ID_DB_TASKS}/query`,
+        const data = await baseNotionApiClient.post(`/v1/databases/${API_ID_DB_TASKS}/query`,
             { filter, sorts },
-            { headers: headerNotionConfig }
         )
         return data;
     } catch (error: unknown) {
@@ -204,9 +225,14 @@ export const getTasksForTomorrow = async () => {
     }
 }
 
+/**
+ * Retrieves tasks to be done from the Notion database.
+ *
+ * @return {Promise<NotionDatabaseAPI | null>} A promise that resolves with the data of the tasks or null if an error occurs.
+ */
 export const getTasksToBeDone = async () => {
     try {
-        const filter = {
+        const filter: NotionFilter = {
             and: [
                 {
                     property: "Check",
@@ -224,16 +250,15 @@ export const getTasksToBeDone = async () => {
 
         }
 
-        const sorts = [
+        const sorts: NotionSort[] = [
             {
                 "property": "Fecha Limite",
                 "direction": "ascending"
             }
         ]
 
-        const data = await axios.post(`/api/v1/databases/${API_ID_DB_TASKS}/query`,
+        const data = await baseNotionApiClient.post(`/v1/databases/${API_ID_DB_TASKS}/query`,
             { filter, sorts },
-            { headers: headerNotionConfig }
         )
         return data;
     } catch (error: unknown) {
@@ -245,7 +270,7 @@ export const getTasksToBeDone = async () => {
 
 export const getTasksSomeday = async () => {
     try {
-        const filter = {
+        const filter: NotionFilter = {
             and: [
                 {
                     property: "Check",
@@ -263,17 +288,14 @@ export const getTasksSomeday = async () => {
 
         }
 
-        const sorts = [
+        const sorts: NotionSort[] = [
             {
                 "property": "Fecha Limite",
                 "direction": "ascending"
             }
         ]
 
-        const data = await axios.post(`/api/v1/databases/${API_ID_DB_TASKS}/query`,
-            { filter, sorts },
-            { headers: headerNotionConfig }
-        )
+        const data = await baseNotionApiClient.post(`/v1/databases/${API_ID_DB_TASKS}/query`, { filter, sorts })
         return data;
     } catch (error: unknown) {
         checkErrorNotion(error)
@@ -282,6 +304,12 @@ export const getTasksSomeday = async () => {
     }
 }
 
+/**
+ * Updates a task in the Notion database.
+ *
+ * @param {TaskItem} task - The task to update.
+ * @return {Promise<NotionPageAPI | null>} A promise that resolves with the data of the updated task or null if an error occurs.
+ */
 export const updateTask = async (task: TaskItem) => {
     try {
         const updatedTask = {
@@ -291,7 +319,7 @@ export const updateTask = async (task: TaskItem) => {
                 }
             }
         }
-        const data = await axios.patch(`/api/v1/pages/${task.id}`, updatedTask, { headers: headerNotionConfig })
+        const data = await baseNotionApiClient.patch(`/v1/pages/${task.id}`, updatedTask)
         return data
     } catch (error: unknown) {
         checkErrorNotion(error)
@@ -300,6 +328,12 @@ export const updateTask = async (task: TaskItem) => {
     }
 }
 
+/**
+ * Deletes a task in the Notion database.
+ *
+ * @param {TaskItem} task - The task to delete.
+ * @return {Promise<NotionPageAPI | null>} A promise that resolves with the data of the deleted task or null if an error occurs.
+ */
 export const deleteTask = async (task: TaskItem) => {
     try {
         const updatedTask = {
@@ -311,7 +345,7 @@ export const deleteTask = async (task: TaskItem) => {
                 }
             }
         }
-        const data = await axios.patch(`/api/v1/pages/${task.id}`, updatedTask, { headers: headerNotionConfig })
+        const data = await baseNotionApiClient.patch(`/v1/pages/${task.id}`, updatedTask)
         return data
     } catch (error: unknown) {
         checkErrorNotion(error)
@@ -320,6 +354,12 @@ export const deleteTask = async (task: TaskItem) => {
     }
 }
 
+/**
+ * Creates a new task in the Notion database.
+ *
+ * @param {CreateTask} task - The task to create.
+ * @return {Promise<NotionPageAPI | null>} A promise that resolves with the data of the created task or null if an error occurs.
+ */
 export const createNewTask = async (task: CreateTask) => {
     try {
         const body = {
@@ -337,22 +377,19 @@ export const createNewTask = async (task: CreateTask) => {
                 "Esfuerzo": {
                     "type": "select",
                     "select": {
-                        "name": task.effort,
-                        "color": getTaskEffortColor(task.effort)
+                        "name": task.effort
                     }
                 },
                 "Área": {
                     "type": "select",
                     "select": {
-                        "name": task.area,
-                        "color": getTaskAreaColor(task.area)
+                        "name": task.area
                     }
                 },
                 "Tipo": {
                     "type": "select",
                     "select": {
-                        "name": task.type,
-                        "color": getTaskColorByType(task.type)
+                        "name": task.type
                     }
                 },
                 "Fecha Limite": {
@@ -366,8 +403,7 @@ export const createNewTask = async (task: CreateTask) => {
                 "Prioridad": {
                     "type": "select",
                     "select": {
-                        "name": task.priority,
-                        "color": getTaskPriorityColor(task.priority)
+                        "name": task.priority
                     }
                 },
                 "Proyectos": {
@@ -404,15 +440,11 @@ export const createNewTask = async (task: CreateTask) => {
             ]
         }
 
-
-        const data = await axios.post(`/api/v1/pages`,
-            body, { headers: headerNotionConfig }
-        )
-
+        const data = await baseNotionApiClient.post(`/v1/pages`, body)
         return data
     } catch (error: unknown) {
         checkErrorNotion(error)
-        console.error("Error al obtener los datos:", error)
+        console.error("Error al crear la tarea:", error)
         return null
     }
 }

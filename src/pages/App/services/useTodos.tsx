@@ -1,6 +1,5 @@
-import React from 'react'
-import { useLocalStorage } from './useLocalStorage'
-import { deleteTask, updateTask } from '../../../services/notion-api'
+import { deleteTask, updateTask } from '../../../services/notionTasks'
+import { useState } from 'react'
 import { CreateTask } from '../../../interfaces/task.interface'
 import { useTasks } from './useNotionAPI'
 import { getFormatTask } from '../../../utils/notionProperties'
@@ -11,16 +10,10 @@ import { getFormatTask } from '../../../utils/notionProperties'
  * @return {Object} Object containing states and functions to update todo state
  */
 const useTodos = (todos: any) => {
-    const {
-        // saveItem: saveTodos,
-        sincronizeItem: sincronizeTodos,
-        loading,
-        error,
-    } = useLocalStorage('TODO_V1', [])
     const { saveTask } = useTasks()
 
-    const [searchValue, setSearchValue] = React.useState('')
-    const [openModal, setOpenModal] = React.useState(false)
+    const [searchValue, setSearchValue] = useState('')
+    const [openModal, setOpenModal] = useState(false)
 
     const completedTodos = todos.filter((todo: any) => !!todo.completed).length
     const totalTodos = todos.length
@@ -66,14 +59,11 @@ const useTodos = (todos: any) => {
     }
 
     const states = {
-        loading,
-        error,
         totalTodos,
         completedTodos,
         searchValue,
         searchedTodos,
         openModal,
-        sincronizeTodos,
     }
 
     const updateState = {

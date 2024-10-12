@@ -1,4 +1,4 @@
-import { useTodos } from './services/useTodos'
+import React, { useState } from 'react'
 import { TodoHeader } from './components/TodoHeader'
 import { TodoForm } from './containers/TodoForm'
 import { CreateTodoButton } from './components/CreateTodoButton'
@@ -9,56 +9,46 @@ import { Fragment } from 'react/jsx-runtime'
 import { useTasks } from './services/useNotionAPI'
 import { TodoTasksContent } from './components/TodoListContent'
 import { HeaderPage } from './components/Header'
-import { useEffect } from 'react'
-import { getNotionData } from '../../services/notionAuth'
-import { API_ID_DB_TASKS } from '../../config'
+import { TaskItem } from '../../interfaces/task.interface'
 
 const App: React.FC = () => {
-    // const {
-    //     tasksNotCompleted,
-    //     tasksToday,
-    //     tasksToBeDone,
-    //     tasksForSomeday,
-    //     tasksTomorrow,
-    // } = useTasks()
-    // const { states, updateState } = useTodos(tasksNotCompleted)
-    // const { states: taskTodayState, updateState: updateStateTaskToday } =
-    //     useTodos(tasksToday)
-    // const { states: taskToBeDoneState, updateState: updateStateTaskToBeDone } =
-    //     useTodos(tasksToBeDone)
-    // const { states: taskSomedayState, updateState: updateStateTaskSomeday } =
-    //     useTodos(tasksForSomeday)
+    const {
+        notCompleted,
+        today,
+        tomorrow,
+        toBeDone,
+        someday,
+        loading,
+        saveTask,
+        completeTask,
+        deleteTask,
+        refetchTasks,
+    } = useTasks()
 
-    // const { states: tasksForTomorrow, updateState: updateStateTaskTomorrow } =
-    //     useTodos(tasksTomorrow)
+    const [openModal, setOpenModal] = useState(false)
+    const [searchValue, setSearchValue] = useState('')
 
-    // const {
-    //     loading,
-    //     error,
-    //     totalTodos,
-    //     searchValue,
-    //     searchedTodos,
-    //     openModal,
-    //     sincronizeTodos,
-    // } = states
+    const handleAddTodo = async (newTodo: any) => {
+        await saveTask(newTodo)
+        setOpenModal(false)
+    }
 
-    // const { setSearchValue, completeTodo, addTodo, deleteTodo, setOpenModal } =
-    //     updateState
+    const handleCompleteTodo = async (task: TaskItem) => {
+        task.completed = !task.completed
+        await completeTask(task)
+    }
 
-    useEffect(() => {
-        getNotionData(API_ID_DB_TASKS).then((data) => {
-            console.log('data', data)
-        })
-    }, [])
+    const handleDeleteTodo = async (task: TaskItem) => {
+        await deleteTask(task)
+    }
 
     return (
         <Fragment>
             <HeaderPage />
             <Box my="0" px="24px" bg="#ffcbcf" position="relative" minH="100vh">
-                {/* <TodoHeader loading={loading}>
+                <TodoHeader loading={loading}>
                     <Tabs isFitted variant="enclosed">
                         <TabList mb="1em">
-                            <Tab>All</Tab>
                             <Tab>Today</Tab>
                             <Tab>Tomorrow</Tab>
                             <Tab>For to do</Tab>
@@ -67,100 +57,68 @@ const App: React.FC = () => {
                         <TabPanels>
                             <TabPanel>
                                 <TodoTasksContent
-                                    error={error}
+                                    error={null}
                                     loading={loading}
-                                    totalTodos={totalTodos}
-                                    searchedTodos={searchedTodos}
+                                    totalTodos={today.length}
+                                    searchedTodos={today}
                                     searchText={searchValue}
                                     setSearchValue={setSearchValue}
-                                    completeTodo={completeTodo}
-                                    deleteTodo={deleteTodo}
+                                    completeTodo={handleCompleteTodo}
+                                    deleteTodo={handleDeleteTodo}
                                 />
                             </TabPanel>
                             <TabPanel>
                                 <TodoTasksContent
-                                    error={taskTodayState.error}
-                                    loading={taskTodayState.loading}
-                                    totalTodos={taskTodayState.totalTodos}
-                                    searchedTodos={taskTodayState.searchedTodos}
+                                    error={null}
+                                    loading={loading}
+                                    totalTodos={tomorrow.length}
+                                    searchedTodos={tomorrow}
                                     searchText={searchValue}
-                                    setSearchValue={
-                                        updateStateTaskToday.setSearchValue
-                                    }
-                                    completeTodo={taskTodayState.completedTodos}
-                                    deleteTodo={deleteTodo}
+                                    setSearchValue={setSearchValue}
+                                    completeTodo={handleCompleteTodo}
+                                    deleteTodo={handleDeleteTodo}
                                 />
                             </TabPanel>
                             <TabPanel>
                                 <TodoTasksContent
-                                    error={tasksForTomorrow.error}
-                                    loading={tasksForTomorrow.loading}
-                                    totalTodos={tasksForTomorrow.totalTodos}
-                                    searchedTodos={
-                                        tasksForTomorrow.searchedTodos
-                                    }
+                                    error={null}
+                                    loading={loading}
+                                    totalTodos={toBeDone.length}
+                                    searchedTodos={toBeDone}
                                     searchText={searchValue}
-                                    setSearchValue={
-                                        updateStateTaskTomorrow.setSearchValue
-                                    }
-                                    completeTodo={
-                                        tasksForTomorrow.completedTodos
-                                    }
-                                    deleteTodo={deleteTodo}
+                                    setSearchValue={setSearchValue}
+                                    completeTodo={handleCompleteTodo}
+                                    deleteTodo={handleDeleteTodo}
                                 />
                             </TabPanel>
                             <TabPanel>
                                 <TodoTasksContent
-                                    error={taskToBeDoneState.error}
-                                    loading={taskToBeDoneState.loading}
-                                    totalTodos={taskToBeDoneState.totalTodos}
-                                    searchedTodos={
-                                        taskToBeDoneState.searchedTodos
-                                    }
+                                    error={null}
+                                    loading={loading}
+                                    totalTodos={someday.length}
+                                    searchedTodos={someday}
                                     searchText={searchValue}
-                                    setSearchValue={
-                                        updateStateTaskToBeDone.setSearchValue
-                                    }
-                                    completeTodo={
-                                        taskToBeDoneState.completedTodos
-                                    }
-                                    deleteTodo={deleteTodo}
-                                />
-                            </TabPanel>
-                            <TabPanel>
-                                <TodoTasksContent
-                                    error={taskSomedayState.error}
-                                    loading={taskSomedayState.loading}
-                                    totalTodos={taskSomedayState.totalTodos}
-                                    searchedTodos={
-                                        taskSomedayState.searchedTodos
-                                    }
-                                    searchText={searchValue}
-                                    setSearchValue={
-                                        updateStateTaskSomeday.setSearchValue
-                                    }
-                                    completeTodo={
-                                        taskSomedayState.completedTodos
-                                    }
-                                    deleteTodo={deleteTodo}
+                                    setSearchValue={setSearchValue}
+                                    completeTodo={handleCompleteTodo}
+                                    deleteTodo={handleDeleteTodo}
                                 />
                             </TabPanel>
                         </TabPanels>
                     </Tabs>
-                </TodoHeader> */}
+                </TodoHeader>
 
-                {/* {!!openModal && (
+                {!!openModal && (
                     <Modal>
                         <TodoForm
-                            addTodo={addTodo}
+                            addTodo={handleAddTodo}
                             setOpenModal={setOpenModal}
                         />
                     </Modal>
-                )} */}
+                )}
 
-                {/* <CreateTodoButton setOpenModal={setOpenModal} /> */}
+                <CreateTodoButton setOpenModal={setOpenModal} />
 
-                {/* <ChangeAlertWithStorageListener sincronize={sincronizeTodos} /> */}
+                <ChangeAlertWithStorageListener sincronize={refetchTasks} />
             </Box>
         </Fragment>
     )

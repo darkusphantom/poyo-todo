@@ -8,7 +8,7 @@ export const authenticateUser = async (username: string, password: string): Prom
   if (username === APP_USERNAME && password === APP_PASSWORD) {
     return API_KEY_NOTION
   }
-  console.log('Credenciales incorrectas');
+  console.error('Credenciales incorrectas');
   return null;
 };
 
