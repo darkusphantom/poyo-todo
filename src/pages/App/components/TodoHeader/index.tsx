@@ -1,20 +1,21 @@
-import { Box } from '@chakra-ui/react';
-import React from 'react';
+import { Box } from '@chakra-ui/react'
+import React from 'react'
 
-const TodoHeader = ({ children, loading }: any) => {
-
-  return (
-    <Box as="header">
-      {
-        React.Children
-          .toArray(children)
-          .map(child => React.cloneElement(
-            child as any,
-            { loading }
-          ))
-      }
-    </Box>
-  )
+interface TodoHeaderProps {
+    children: React.ReactNode
+    loading: boolean
 }
 
-export { TodoHeader };
+const TodoHeader: React.FC<TodoHeaderProps> = ({ children, loading }) => {
+    return (
+        <Box as="header">
+            {React.Children.toArray(children).map((child) =>
+                React.isValidElement(child)
+                    ? React.cloneElement(child, loading)
+                    : child
+            )}
+        </Box>
+    )
+}
+
+export { TodoHeader }
