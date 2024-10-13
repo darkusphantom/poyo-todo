@@ -19,8 +19,9 @@ export const headerNotionConfig = {
 export const baseNotionApiClient = axios.create({
     baseURL: NOTION_API_BASE_URL,
     headers: {
-        Authorization: `Bearer ${API_KEY_NOTION}`,
-        'Notion-Version': NOTION_VERSION,
-        'Content-Type': 'application/json'
+        ...headerNotionConfig,
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers': 'Content-Type',
     },
 })
