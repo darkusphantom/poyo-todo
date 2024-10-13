@@ -1,80 +1,80 @@
-import React from 'react';
-import { useLocalStorage } from './useLocalStorage';
+import { deleteTask, updateTask } from '../../../services/notionTasks'
+import { useState } from 'react'
+import { CreateTask } from '../../../interfaces/task.interface'
+import { useTasks } from './useNotionAPI'
+import { getFormatTask } from '../../../utils/notionProperties'
 
-const useTodos = () => {
-  const {
-    item: todos,
-    saveItem: saveTodos,
-    sincronizeItem: sincronizeTodos,
-    loading,
-    error,
-  } = useLocalStorage('TODO_V1', []);
-  const [searchValue, setSearchValue] = React.useState('');
-  const [openModal, setOpenModal] = React.useState(false);
+/**
+ * Custom hook for managing todos. Manages todo state, adding, completing, and deleting all todos.
+ *
+ * @return {Object} Object containing states and functions to update todo state
+ */
+const useTodos = (todos: any) => {
+    const { saveTask } = useTasks()
 
-  const completedTodos = todos.filter((todo: any) => !!todo.completed).length;
-  const totalTodos = todos.length;
+    const [searchValue, setSearchValue] = useState('')
+    const [openModal, setOpenModal] = useState(false)
 
-  let searchedTodos = [];
+    const completedTodos = todos.filter((todo: any) => !!todo.completed).length
+    const totalTodos = todos.length
 
-  if (!searchValue.length as any >= 1) {
-    searchedTodos = todos;
-  } else {
-    searchedTodos = todos.filter((todo: any) => {
-      const todoText = todo.text.toLowerCase();
-      const searchText = searchValue.toLowerCase();
-      return todoText.includes(searchText);
-    });
-  }
+    let searchedTodos = []
 
-  const addTodo = (text: any) => {
-    const newTodos = [...todos];
-    newTodos.push({
-      completed: false,
-      text,
-    })
-    saveTodos(newTodos);
-  }
-
-  const completeTodo = (text: any) => {
-    const todoIndex = todos.findIndex((todo: any) => todo.text === text);
-    const newTodos = [...todos];
-    if (newTodos[todoIndex].completed === true) {
-      newTodos[todoIndex].completed = false;
+    if ((!searchValue.length as any) >= 1) {
+        searchedTodos = todos
+    } else {
+        searchedTodos = todos.filter((todo: any) => {
+            const todoText = todo.text.toLowerCase()
+            const searchText = searchValue.toLowerCase()
+            return todoText.includes(searchText)
+        })
     }
-    else {
-      newTodos[todoIndex].completed = true;
+
+    const addTodo = (newTodo: CreateTask) => {
+        const newTodos = [...todos]
+        saveTask(newTodo).then((res: any) => {
+            const newTask = res.data
+            const formatNewTask = getFormatTask([newTask])
+            newTodos.push(...formatNewTask)
+        })
     }
-    saveTodos(newTodos);
-  };
 
-  const deleteTodo = (text: any) => {
-    const todoIndex = todos.findIndex((todo: any) => todo.text === text);
-    const newTodos = [...todos];
-    newTodos.splice(todoIndex, 1);
-    saveTodos(newTodos);
-  };
+    const completeTodo = (text: any) => {
+        const todoIndex = todos.findIndex((todo: any) => todo.text === text)
+        const newTodos = [...todos]
+        if (newTodos[todoIndex].completed === true) {
+            newTodos[todoIndex].completed = false
+        } else {
+            newTodos[todoIndex].completed = true
+        }
+        updateTask(newTodos[todoIndex])
+        // saveTodos(newTodos)
+    }
 
-  const states = {
-    loading,
-    error,
-    totalTodos,
-    completedTodos,
-    searchValue,
-    searchedTodos,
-    openModal,
-    sincronizeTodos,
-  };
+    const deleteTodo = (text: any) => {
+        const todoIndex = todos.findIndex((todo: any) => todo.text === text)
+        const newTodos = [...todos]
+        newTodos.splice(todoIndex, 1)
+        deleteTask(todos[todoIndex])
+    }
 
-  const updateState = {
-    setSearchValue,
-    completeTodo,
-    addTodo,
-    deleteTodo,
-    setOpenModal,
-  };
+    const states = {
+        totalTodos,
+        completedTodos,
+        searchValue,
+        searchedTodos,
+        openModal,
+    }
 
-  return { states, updateState };
+    const updateState = {
+        setSearchValue,
+        completeTodo,
+        addTodo,
+        deleteTodo,
+        setOpenModal,
+    }
+
+    return { states, updateState }
 }
 
-export { useTodos };
+export { useTodos }
