@@ -13,7 +13,6 @@ import { TaskItem } from '../../interfaces/task.interface'
 
 const App: React.FC = () => {
     const {
-        notCompleted,
         today,
         tomorrow,
         toBeDone,
