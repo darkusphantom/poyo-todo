@@ -1,6 +1,8 @@
-import React from 'react'
-import { useLocalStorage } from './useLocalStorage'
-import { deleteTask, updateTask } from '../../../client/notion-api'
+import { deleteTask, updateTask } from '../../../services/notionTasks'
+import { useState } from 'react'
+import { CreateTask } from '../../../interfaces/task.interface'
+import { useTasks } from './useNotionAPI'
+import { getFormatTask } from '../../../utils/notionProperties'
 
 /**
  * Custom hook for managing todos. Manages todo state, adding, completing, and deleting all todos.
@@ -8,16 +10,10 @@ import { deleteTask, updateTask } from '../../../client/notion-api'
  * @return {Object} Object containing states and functions to update todo state
  */
 const useTodos = (todos: any) => {
-    const {
-        // saveItem: saveTodos,
-        sincronizeItem: sincronizeTodos,
-        loading,
-        error,
-    } = useLocalStorage('TODO_V1', [])
-    // const { tasksNotCompleted: todos } = useTasks()
+    const { saveTask } = useTasks()
 
-    const [searchValue, setSearchValue] = React.useState('')
-    const [openModal, setOpenModal] = React.useState(false)
+    const [searchValue, setSearchValue] = useState('')
+    const [openModal, setOpenModal] = useState(false)
 
     const completedTodos = todos.filter((todo: any) => !!todo.completed).length
     const totalTodos = todos.length
@@ -34,13 +30,13 @@ const useTodos = (todos: any) => {
         })
     }
 
-    const addTodo = (text: any) => {
+    const addTodo = (newTodo: CreateTask) => {
         const newTodos = [...todos]
-        newTodos.push({
-            completed: false,
-            text,
+        saveTask(newTodo).then((res: any) => {
+            const newTask = res.data
+            const formatNewTask = getFormatTask([newTask])
+            newTodos.push(...formatNewTask)
         })
-        // saveTodos(newTodos)
     }
 
     const completeTodo = (text: any) => {
@@ -50,7 +46,6 @@ const useTodos = (todos: any) => {
             newTodos[todoIndex].completed = false
         } else {
             newTodos[todoIndex].completed = true
-            console.log(newTodos[todoIndex])
         }
         updateTask(newTodos[todoIndex])
         // saveTodos(newTodos)
@@ -60,19 +55,15 @@ const useTodos = (todos: any) => {
         const todoIndex = todos.findIndex((todo: any) => todo.text === text)
         const newTodos = [...todos]
         newTodos.splice(todoIndex, 1)
-        console.log(newTodos)
         deleteTask(todos[todoIndex])
     }
 
     const states = {
-        loading,
-        error,
         totalTodos,
         completedTodos,
         searchValue,
         searchedTodos,
         openModal,
-        sincronizeTodos,
     }
 
     const updateState = {

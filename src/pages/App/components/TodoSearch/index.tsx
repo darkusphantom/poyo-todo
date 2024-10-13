@@ -15,7 +15,6 @@ const placeholderStyles = {
 
 const TodoSearch = ({ searchValue, setSearchValue, loading }: any) => {
   const onSearchValueChange = (event: any) => {
-    console.log(event.target.value)
     setSearchValue(event.target.value);
   };
 

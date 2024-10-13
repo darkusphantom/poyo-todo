@@ -1,3 +1,46 @@
+// Interfaces
+export interface NotionResponse {
+    object: string;
+    results: any[];
+    next_cursor: string | null;
+    has_more: boolean;
+}
+
+export interface NotionFilter {
+    and?: object[];
+    or?: object[];
+    property?: string;
+    [key: string]: any;
+}
+
+export interface NotionSort {
+    property: string;
+    direction: "ascending" | "descending";
+}
+
+export interface NotionQueryParams {
+    filter?: NotionFilter;
+    sorts?: NotionSort[];
+}
+
+export interface NotionPageProperties {
+    [key: string]: {
+        type: string;
+        [key: string]: any;
+    };
+}
+
+export interface NotionPageBody {
+    parent: {
+        database_id: string;
+    };
+    icon?: {
+        emoji: string;
+    };
+    properties: NotionPageProperties;
+    children?: any[];
+}
+
 export interface NotionDatabaseAPI {
     object: string;
     results: Array<NotionDatabase>;

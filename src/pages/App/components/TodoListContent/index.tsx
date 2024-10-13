@@ -61,8 +61,8 @@ const TodoTasksContent = ({
                         type={todo.type}
                         limitDate={todo.limitDate}
                         completed={todo.completed}
-                        onComplete={() => completeTodo(todo.text)}
-                        onDelete={() => deleteTodo(todo.text)}
+                        onComplete={() => completeTodo(todo)}
+                        onDelete={() => deleteTodo(todo)}
                     />
                 )}
             </TodoList>

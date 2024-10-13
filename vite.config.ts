@@ -1,10 +1,13 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/',
   plugins: [react()],
+  build: {
+    outDir: 'build'
+  },
   // test: {
   //   globals: true,
   //   environment: 'jsdom',
@@ -19,11 +22,14 @@ export default defineConfig({
   // },
   server: {
     proxy: {
-      "/api": {
-        target: "https://api.notion.com",
+      '/api': {
+        target: 'https://api.notion.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
-        
+        secure: false,
+        headers: {
+          'Notion-Version': '2022-06-28'
+        }
       }
     }
   }
