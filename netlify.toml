@@ -1,7 +1,16 @@
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  from = "/api/v1/*"
+  to = "https://api.notion.com/v1/:splat"
   status = 200
+  force = true
+
+[[headers]]
+  for = "/api/v1/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET,POST,PUT,DELETE,OPTIONS,PATCH"
+    Access-Control-Allow-Headers = "Authorization, Notion-Version, Content-Type, X-Requested-With, Accept"
+    Access-Control-Allow-Credentials = "true"
 
 [[redirects]]
   from = "/*"
