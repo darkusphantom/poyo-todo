@@ -20,8 +20,5 @@ export const baseNotionApiClient = axios.create({
     baseURL: NOTION_API_BASE_URL,
     headers: {
         ...headerNotionConfig,
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
-        'Access-Control-Allow-Headers': 'Content-Type',
     },
 })
