@@ -140,6 +140,9 @@ export const getTasksToday = async () => {
         const data = await baseNotionApiClient.post(`/v1/databases/${API_ID_DB_TASKS}/query`,
             { filter, sorts },
         )
+        console.log("data", data)
+        console.log("baseNotionApiClient", baseNotionApiClient)
+
 
         return data;
     } catch (error: unknown) {

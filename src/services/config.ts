@@ -1,7 +1,8 @@
 import axios from "axios";
 import { API_KEY_NOTION } from "../config";
 
-
+const isDevelopment = process.env.NODE_ENV === 'development'
+// const NOTION_API_BASE_URL = isDevelopment ? '/api' : 'https://api.notion.com'
 const NOTION_API_BASE_URL = '/api'
 // const NOTION_VERSION = '2022-06-28'
 const NOTION_VERSION = '2022-02-22'
