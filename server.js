@@ -18,6 +18,10 @@ app.use('/api', createProxyMiddleware({
 
 // Maneja cualquier otra solicitud enviando el index.html
 app.get('*', (req, res) => {
+    res.append('Access-Control-Allow-Origin', '*');
+    res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.append('Access-Control-Allow-Headers', 'Content-Type');
+    console.log('Solicitud recibida:', req.originalUrl);
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
